@@ -20,6 +20,9 @@ export default function Navbar() {
             <li><a href="#">Newsletter</a></li>
           </ul>
           <ul>
+            <li><a href="#">Alumni</a></li>
+          </ul>
+          <ul>
             <li><a href="#">Events</a></li>
           </ul>
           <ul>

@@ -2,18 +2,79 @@ import React, { useState } from 'react';
 import Campus from '../../Assets/campus.jpg';
 import './Home.css';
 
-export default function Home() {
+const GallerySection = ({ title, images }) => (
+  <section className="gallery-section">
+    <h2>{title}</h2>
+    <div className="image-boxes">
+      {images.map((image, index) => (
+        <div className="box" key={index}>
+          <img src={image.src} alt={image.alt} />
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
+const VideoSection = ({ title, videos }) => (
+  <section className="video-section">
+    <h2>{title}</h2>
+    <div className="video-boxes">
+      {videos.map((video, index) => (
+        <div className="box" key={index}>
+          <iframe
+            width="560"
+            height="315"
+            src={video.src}
+            title={video.title}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
+const Home = () => {
   const [activeTab, setActiveTab] = useState('news');
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  const architectureImages = [
+    { src: '/kjsce library.jpeg', alt: 'Architecture 1' },
+    { src: '/kjsce canteen.jpg', alt: 'Architecture 2' },
+    { src: '/kjsce lab.jpg', alt: 'Architecture 3' },
+    { src: '/kjsce front.jpg', alt: 'Architecture 4' },
+  ];
+
+  const sportsImages = [
+    { src: '/kjsce athletic track.jpg', alt: 'Sports 1' },
+    { src: '/kjsce basketball.jpg', alt: 'Sports 2' },
+    { src: '/kjsce cricket ground.jpg', alt: 'Sports 3' },
+    { src: '/kjsce swimming pool.jpg', alt: 'Sports 4' },
+  ];
+
+  const eventsImages = [
+    { src: '/kjsce ashneer.jpeg', alt: 'Events 1' },
+    { src: '/kjsce kk.jpg', alt: 'Events 2' },
+    { src: '/kjsce shaan.jpg', alt: 'Events 3' },
+    { src: '/kjsce sukhwinder.jpg', alt: 'Events 4' },
+  ];
+
+  const videos = [
+    { src: 'https://www.youtube.com/embed/4ZMgEG6rPiY?si=niNyprQSdC45NMlK', title: 'YouTube video player 1' },
+    { src: 'https://www.youtube.com/embed/maPvMNHPG2Q?si=01gkHiNXPWPIVDJV', title: 'YouTube video player 2' },
+  ];
+
   return (
     <>
       <div className="home-container">
         <div className="image-container">
-          <img src={Campus} alt="KJSCE Campus" className="Img"/>
+          <img src={Campus} alt="KJSCE Campus" className="Img" />
           <div className="overlay">
             <h1>Welcome to the alumni network</h1>
             <a href="#" className="register-button">Register Now</a>
@@ -91,9 +152,14 @@ export default function Home() {
       <div className="Alumnis">
         <h1>Notable Alumnis</h1>
       </div>
-      <div className="Gallery">
-        <h1>Gallery</h1>
-      </div>
+      <main className="container">
+        <GallerySection title="Architecture" images={architectureImages} />
+        <GallerySection title="Sports" images={sportsImages} />
+        <GallerySection title="Events" images={eventsImages} />
+        <VideoSection title="Videos" videos={videos} />
+      </main>
     </>
   );
-}
+};
+
+export default Home;
