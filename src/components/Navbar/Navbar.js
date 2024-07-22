@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from '../../Assets/logo.png';
 import './Navbar.css';
+import { Outlet, Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -8,25 +9,25 @@ export default function Navbar() {
       <nav className='main-nav'>
         <div className='logo'>
           <img src={logo} alt='logo' />
-        </div> 
+        </div>
         <div className='menu'>
           <ul>
-            <li><a href="#">Home</a></li>
+            <li><Link to="/">Home</Link></li>
           </ul>
           <ul>
-            <li><a href="#">Careers</a></li>
+            <li><Link to="/careers">Careers</Link></li>
           </ul>
           <ul>
-            <li><a href="#">Newsletter</a></li>
+            <li><Link to="/newsletter">Newsletter</Link></li>
           </ul>
           <ul>
-            <li><a href="#">Alumni</a></li>
+            <li><Link to="/alumni">Alumni</Link></li>
           </ul>
           <ul>
-            <li><a href="#">Events</a></li>
+            <li><Link to="/events">Events</Link></li>
           </ul>
           <ul>
-            <li><a href="#">Login</a></li>
+            <li><Link to="/login">Login</Link></li>
           </ul>
         </div>
       </nav>
