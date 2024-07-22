@@ -1,0 +1,106 @@
+.career-container {
+    padding: 0.25%;
+    background-color: #d9d9d9;
+  }
+  
+  .career-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .career-header h1 {
+    margin: 0;
+    color: #ffff;
+  }
+  
+  .view-all-jobs {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 100%;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .job-cards {
+    display: flex;
+    justify-content: center; 
+    flex-wrap: wrap;
+    gap: 0.5%; 
+  }
+  
+  .job-card {
+    box-sizing: border-box; 
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(25% - 10px); 
+  }
+  
+  .job-card h2 {
+      margin-top: 0;
+      min-height: 23%;
+  }
+  
+  .apply-button {
+    background-color: #EA3737;
+    border-radius: 1rem;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .cities-heading {
+    text-align: center;
+    margin: 40px 0 4rem;
+    color: black;
+    text-transform: uppercase;
+    font-family: 'Grenze Gotisch', cursive;
+    font-weight: 600;
+    font-size: 1.7rem;
+  }
+  
+  .city-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+    font-family: 'Grenze Gotisch', cursive;
+    font-weight:600;
+  }
+  
+  .city-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+
+  }
+  
+  .city-icon {
+    font-size: 24px;
+    color: #000;
+  }
+  .city-name{
+    font-size: 1.3rem;
+  }
+  
+  .view-map-button {
+    display: block;
+    size: 1.5rem;
+    margin: 5rem auto;
+    background-color: #EA3737;
+    border-radius: 1rem;
+    font-size: 1.5rem;
+    color: white;
+    border: none;
+    padding: 1.5rem 3rem;
+    cursor: pointer;
+    margin-bottom: 2.5%;
+  }
+  
