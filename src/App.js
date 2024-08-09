@@ -7,6 +7,7 @@ import Alumni from './Pages/Alumni/Alumni';
 import Newsletter from './Pages/Newsletter/Newsletter';
 import Events from './Pages/Events/Events';
 import Login from './Pages/Login/Login';
+import Signin from './Pages/Signin/Signin';
 
 import './App.css';
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/newsletter" element={<Newsletter />}></Route>
           <Route path="/events" element={<Events />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/signin" element={<Signin />}></Route>
         </Route>
       </Routes>
     </div>

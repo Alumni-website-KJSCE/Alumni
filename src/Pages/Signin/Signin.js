@@ -1,5 +1,5 @@
 import React from 'react';
-import './Login.css'; // Import the CSS file for styling
+import './Signin.css'; // Import the CSS file for styling
 
 const Login = () => {
   return (
@@ -16,8 +16,12 @@ const Login = () => {
             <input type="password" required />
             <label>Password</label>
           </div>
-          <button type="submit">Log In</button>
-          <a href="http://localhost:3000/signin" className="forgot-password">Sign in</a>
+          <div className="input-field">
+            <input type="password" required />
+            <label>Confirm Password</label>
+          </div>
+          <button type="submit">Sign In</button>
+          <a href="http://localhost:3000/login" className="forgot-password">Log in</a>
           <a href="#" className="forgot-password">Forgot password?</a>
         </form>
       </div>
@@ -26,4 +30,3 @@ const Login = () => {
 };
 
 export default Login;
-
