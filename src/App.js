@@ -6,6 +6,7 @@ import Layout from './components/Layout/Layout';
 import Alumni from './Pages/Alumni/Alumni';
 import Newsletter from './Pages/Newsletter/Newsletter';
 import Events from './Pages/Events/Events';
+import Login from './Pages/Login/Login';
 
 import './App.css';
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/alumni" element={<Alumni />}></Route>
           <Route path="/newsletter" element={<Newsletter />}></Route>
           <Route path="/events" element={<Events />}></Route>
+          <Route path="/login" element={<Login />}></Route>
         </Route>
       </Routes>
     </div>
