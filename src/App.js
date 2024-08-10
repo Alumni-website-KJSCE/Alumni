@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Home from './Pages/Home/Home'; 
-import Careers from './Pages/Careers/career'; 
+import Home from './Pages/Home/Home';
+import Careers from './Pages/Careers/career';
 import Layout from './components/Layout/Layout';
 import Alumni from './Pages/Alumni/Alumni';
 import Newsletter from './Pages/Newsletter/Newsletter';
@@ -25,7 +25,7 @@ function App() {
           <Route path="/signin" element={<Signin />}></Route>
         </Route>
       </Routes>
-    </div>
+    </div >
   );
 }
 
