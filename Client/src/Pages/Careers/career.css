@@ -3,12 +3,12 @@
     background-color: #d9d9d9;
   }
   
-  .career-header {
+  /* .career-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-  }
+  } */
   
   .career-header h1 {
     margin: 0;
@@ -38,6 +38,11 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: calc(25% - 10px); 
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
   }
   
   .job-card h2 {
@@ -103,4 +108,3 @@
     cursor: pointer;
     margin-bottom: 2.5%;
   }
-  

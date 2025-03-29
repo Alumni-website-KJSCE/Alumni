@@ -45,29 +45,29 @@ const Home = () => {
   };
 
   const architectureImages = [
-    { src: '/kjsce library.jpeg', alt: 'Architecture 1' },
-    { src: '/kjsce canteen.jpg', alt: 'Architecture 2' },
-    { src: '/kjsce lab.jpg', alt: 'Architecture 3' },
-    { src: '/kjsce front.jpg', alt: 'Architecture 4' },
+    { src: '/kjsce library.jpeg', alt: 'KJSCE Library' },
+    { src: '/kjsce canteen.jpg', alt: 'KJSCE Canteen' },
+    { src: '/kjsce lab.jpg', alt: 'KJSCE Lab' },
+    { src: '/kjsce front.jpg', alt: 'KJSCE Front View' },
   ];
 
   const sportsImages = [
-    { src: '/kjsce athletic track.jpg', alt: 'Sports 1' },
-    { src: '/kjsce basketball.jpg', alt: 'Sports 2' },
-    { src: '/kjsce cricket ground.jpg', alt: 'Sports 3' },
-    { src: '/kjsce swimming pool.jpg', alt: 'Sports 4' },
+    { src: '/kjsce athletic track.jpg', alt: 'Athletic Track' },
+    { src: '/kjsce basketball.jpg', alt: 'Basketball Court' },
+    { src: '/kjsce cricket ground.jpg', alt: 'Cricket Ground' },
+    { src: '/kjsce swimming pool.jpg', alt: 'Swimming Pool' },
   ];
 
   const eventsImages = [
-    { src: '/kjsce ashneer.jpeg', alt: 'Events 1' },
-    { src: '/kjsce kk.jpg', alt: 'Events 2' },
-    { src: '/kjsce shaan.jpg', alt: 'Events 3' },
-    { src: '/kjsce sukhwinder.jpg', alt: 'Events 4' },
+    { src: '/kjsce ashneer.jpeg', alt: 'Ashneer Event' },
+    { src: '/kjsce kk.jpg', alt: 'KK Event' },
+    { src: '/kjsce shaan.jpg', alt: 'Shaan Event' },
+    { src: '/kjsce sukhwinder.jpg', alt: 'Sukhwinder Event' },
   ];
 
   const videos = [
-    { src: 'https://www.youtube.com/embed/4ZMgEG6rPiY?si=niNyprQSdC45NMlK', title: 'YouTube video player 1' },
-    { src: 'https://www.youtube.com/embed/maPvMNHPG2Q?si=01gkHiNXPWPIVDJV', title: 'YouTube video player 2' },
+    { src: 'https://www.youtube.com/embed/4ZMgEG6rPiY?si=niNyprQSdC45NMlK', title: 'Alumni Meet Highlights' },
+    { src: 'https://www.youtube.com/embed/maPvMNHPG2Q?si=01gkHiNXPWPIVDJV', title: 'Campus Tour' },
   ];
 
   return (
@@ -77,7 +77,7 @@ const Home = () => {
           <img src={Campus} alt="KJSCE Campus" className="Img" />
           <div className="overlay">
             <h1>Welcome to the alumni network</h1>
-            <a href="#" className="register-button">Register Now</a>
+            <a href="/signup" className="register-button">Register Now</a>
           </div>
         </div>
       </div>

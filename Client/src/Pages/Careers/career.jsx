@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './career.css';
 import { FaMapLocation } from "react-icons/fa6";
 
@@ -20,7 +20,7 @@ const alumniData = {
     return (
       <div className="career-container">
         <header className="career-header">
-          <h1>Jobs and Internships</h1>
+          <h1 style={{textAlign:'center'}}>Jobs and Internships</h1>
           <button className="view-all-jobs">View All Jobs</button>
         </header>
         <div className="job-cards">

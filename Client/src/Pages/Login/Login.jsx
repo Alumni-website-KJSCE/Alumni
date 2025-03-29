@@ -6,19 +6,24 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post('http://localhost:3001/login', { email, password })
       .then(result => {
-        console.log(result);
         if (result.data === "Login Success") {
           navigate('/');   
+        } else {
+          setErrorMessage(result.data); // Display error message
         }
       })
-      .catch(error => console.log(error)); 
-  }
+      .catch(error => {
+        console.error(error);
+        setErrorMessage("An error occurred. Please try again.");
+      });
+  };
 
   return (
     <div className="login-container">
@@ -45,9 +50,10 @@ function Login() {
             <label>Password</label>
           </div>
           <button type="submit">Log In</button>
-          <a href="http://localhost:3000/signin" className="forgot-password">Sign in</a>
+          <a href="/signup" className="forgot-password">Sign Up</a>
           <a href="#" className="forgot-password">Forgot password?</a>
         </form>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
       </div>
     </div>
   );

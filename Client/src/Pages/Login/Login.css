@@ -100,3 +100,10 @@ button:hover {
     color: #ffcccc;
     text-decoration: underline;
 }
+
+.error-message {
+    color: #ffcccc;
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: center;
+}

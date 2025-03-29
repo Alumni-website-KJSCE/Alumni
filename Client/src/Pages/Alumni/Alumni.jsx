@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './Alumni.css';
 
 const Alumni = () => {
@@ -6,8 +7,10 @@ const Alumni = () => {
     name: '',
     industry: '',
     location: '',
-    graduationYear: '',
+    year: '', // Updated to match "Year" field in the backend
   });
+  const [alumniList, setAlumniList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,11 +20,26 @@ const Alumni = () => {
     }));
   };
 
+  const fetchAlumni = async (params = {}) => {
+    try {
+      setLoading(true);
+      const response = await axios.get('http://localhost:3001/alumni', { params });
+      setAlumniList(response.data);
+    } catch (error) {
+      console.error('Error fetching alumni data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your search logic here
-    console.log(searchParams);
+    fetchAlumni(searchParams);
   };
+
+  useEffect(() => {
+    fetchAlumni(); // Fetch all alumni on component mount
+  }, []);
 
   return (
     <section className="search-section">
@@ -58,8 +76,8 @@ const Alumni = () => {
           <option value="Gurgaon">Gurgaon</option>
         </select>
         <select
-          name="graduationYear"
-          value={searchParams.graduationYear}
+          name="year"
+          value={searchParams.year}
           onChange={handleChange}
         >
           <option value="">Select Graduation Year</option>
@@ -73,6 +91,26 @@ const Alumni = () => {
         </select>
         <button type="submit">Search</button>
       </form>
+
+      <div className="alumni-results">
+        <h2>Search Results</h2>
+        {loading ? (
+          <p>Loading...</p>
+        ) : alumniList.length > 0 ? (
+          <div className="card-container">
+            {alumniList.map((alum, index) => (
+              <div className="card" key={index}>
+                <h3>{alum.name}</h3>
+                <p><b>Industry:</b> {alum.industry}</p>
+                <p><b>Location:</b> {alum.Location}</p>
+                <p><b>Year:</b> {alum.Year}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No alumni found.</p>
+        )}
+      </div>
     </section>
   );
 };
