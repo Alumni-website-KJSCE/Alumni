@@ -1,0 +1,176 @@
+/* Additional styles for the Stay Connected section */
+
+/* Style for the scrollable tabs */
+.scrollable-tabs-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.scrollable-tabs {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-red) transparent;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5px;
+  scroll-behavior: smooth;
+}
+
+.scrollable-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.scrollable-tabs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollable-tabs::-webkit-scrollbar-thumb {
+  background-color: var(--primary-red);
+  border-radius: 20px;
+}
+
+/* Tab indicators for mobile */
+.tab-indicators {
+  display: none;
+  justify-content: center;
+  margin-top: 0.5rem;
+  gap: 5px;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #ddd;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background-color: var(--primary-red);
+  transform: scale(1.2);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Card content enhancements */
+.card-badge {
+  display: inline-block;
+  background: rgba(var(--primary-red-rgb, 216, 64, 64), 0.1);
+  color: var(--primary-red);
+  padding: 0.3rem 0.6rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Dark theme adjustments */
+:root.dark-theme .indicator {
+  background-color: #555;
+}
+
+:root.dark-theme .indicator.active {
+  background-color: var(--primary-red);
+}
+
+:root.dark-theme .card-badge {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+}
+
+:root.dark-theme .card-meta {
+  color: var(--text-secondary);
+}
+
+/* Stay Connected Section Styles */
+.section-card.stay-connected-wrapper {
+  background: var(--background-secondary, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.section-card.stay-connected-wrapper:hover {
+  box-shadow: 0 3px 10px var(--shadow-medium);
+}
+
+/* Grid layout for content */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .section-card.stay-connected-wrapper {
+    padding: 1.5rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-card.stay-connected-wrapper {
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-card.stay-connected-wrapper {
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 6px;
+  }
+}
+
+/* Dark theme support */
+:root.dark-theme .section-card.stay-connected-wrapper {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+}
+
+:root.dark-theme .section-card.stay-connected-wrapper:hover {
+  box-shadow: 0 8px 25px var(--shadow-color);
+}

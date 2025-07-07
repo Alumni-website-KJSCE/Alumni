@@ -1,0 +1,43 @@
+/* Form validation styles for Stay Connected Management */
+.form-group input:invalid,
+.form-group textarea:invalid {
+  border-color: #e53935;
+  background-color: #ffebee;
+}
+
+/* Input character count indicator */
+.char-count {
+  display: block;
+  text-align: right;
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 0.25rem;
+}
+
+.char-count.near-limit {
+  color: #ff9800;
+}
+
+.char-count.at-limit {
+  color: #e53935;
+  font-weight: bold;
+}
+
+/* Form validation message styles */
+.validation-message {
+  color: #e53935;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+.form-group input:invalid + .validation-message,
+.form-group textarea:invalid + .validation-message {
+  display: block;
+}
+
+/* URL validation styles */
+.invalid-url {
+  border-color: #e53935 !important;
+  background-color: #ffebee !important;
+}

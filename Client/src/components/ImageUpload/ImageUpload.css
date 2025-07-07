@@ -1,0 +1,190 @@
+/* CSS Variables for modern design */
+:root {
+  --primary-red: #D84040;
+  --dark-red: #A31D1D;
+  --light-beige: #f5f7fa;
+  --pale-beige: #c3cfe2;
+  --text-dark: #333333;
+  --text-light: #FFFFFF;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --primary-gradient: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --text-gradient: linear-gradient(135deg, #2c3e50, #34495e);
+}
+
+.image-upload-wrapper {
+  width: 100%;
+}
+
+.image-upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2.5rem;
+  border: 2px dashed var(--glass-border);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 220px;
+  justify-content: center;
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.image-upload-container:hover {
+  border-color: var(--primary-red);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+}
+
+.image-upload-container.error {
+  border-color: #dc2626;
+  background: rgba(254, 242, 242, 0.9);
+  backdrop-filter: blur(15px);
+}
+
+.image-upload-input {
+  display: none;
+}
+
+.image-preview {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-red);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(216, 64, 64, 0.25);
+}
+
+.image-preview:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px rgba(216, 64, 64, 0.35);
+  border-color: var(--dark-red);
+}
+
+.image-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  color: #666;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.image-upload-container:hover .image-upload-placeholder {
+  transform: translateY(-5px);
+}
+
+.image-upload-icon {
+  color: var(--dark-red);
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.image-upload-container:hover .image-upload-icon {
+  transform: scale(1.1);
+}
+
+.image-upload-text {
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.remove-image-button {
+  background-color: #ff4444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.remove-image-button:hover {
+  background-color: #cc0000;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(204, 0, 0, 0.2);
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: var(--dark-red);
+}
+
+.loading-icon {
+  animation: spin 1s linear infinite;
+  color: var(--primary-red);
+}
+
+.upload-error {
+  color: #ff4444;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark Theme Support */
+:root.dark-theme .image-upload-container {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+:root.dark-theme .image-upload-container:hover {
+  background: rgba(45, 45, 45, 0.98);
+  border-color: var(--primary-red);
+  box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+:root.dark-theme .image-upload-label {
+  color: var(--text-dark);
+}
+
+:root.dark-theme .image-upload-icon {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .image-preview {
+  background: rgba(45, 45, 45, 0.3);
+  border-color: var(--border-color);
+}
+
+:root.dark-theme .remove-image-button {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+}
+
+:root.dark-theme .remove-image-button:hover {
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+:root.dark-theme .error-message {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+:root.dark-theme .image-upload-container.error {
+  border-color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}

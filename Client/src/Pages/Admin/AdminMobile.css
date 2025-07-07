@@ -1,0 +1,102 @@
+/* Admin Mobile Pages Styles */
+.admin-mobile-page {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-mobile-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.header-title h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.header-title svg {
+  font-size: 1.1rem;
+}
+
+.admin-mobile-content {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* Responsive adjustments for the EventForm inside mobile pages */
+.admin-mobile-content .event-form {
+  max-width: none;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.admin-mobile-content .event-form .form-buttons {
+  position: sticky;
+  bottom: 0;
+  background-color: var(--bg-color);
+  padding: 1rem 0;
+  margin-top: 2rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.admin-mobile-content .event-form .form-buttons button {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.admin-mobile-content .event-form .form-buttons button:last-child {
+  margin-bottom: 0;
+}
+
+/* Override form styles for mobile */
+@media (max-width: 768px) {
+  .admin-mobile-content .event-form .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .admin-mobile-content .event-form input,
+  .admin-mobile-content .event-form textarea,
+  .admin-mobile-content .event-form select {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+}

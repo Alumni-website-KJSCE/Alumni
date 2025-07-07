@@ -1,0 +1,100 @@
+/* PostJob.css */
+.post-job-page {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.post-job-header {
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--primary-red);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  color: var(--dark-red);
+  transform: translateX(-3px);
+}
+
+.post-job-header h1 {
+  color: var(--dark-red);
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.post-job-content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Dark theme support */
+:root.dark-theme .post-job-page {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+:root.dark-theme .post-job-content {
+  background: var(--card-bg-dark);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+:root.dark-theme .post-job-header h1 {
+  color: var(--text-dark);
+}
+
+:root.dark-theme .back-button {
+  color: var(--primary-red);
+}
+
+:root.dark-theme .back-button:hover {
+  color: #ff6b6b;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .post-job-page {
+    padding: 1rem 0.5rem;
+  }
+  
+  .post-job-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .back-button {
+    font-size: 0.9rem;
+  }
+  
+  .post-job-content {
+    border-radius: 10px;
+    margin: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .post-job-page {
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .post-job-content {
+    margin: 0;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+}

@@ -1,229 +1,725 @@
-/* Base Styles */
-body {
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+/* Events Page Modern Styling */
+:root {
+  --primary-red: #D84040;
+  --dark-red: #A31D1D;
+  --background-primary: #f7f9fc;
+  --background-secondary: #ffffff;
+  --background-tertiary: #f0f2f5;
+  --text-dark: #333333;
+  --text-light: #FFFFFF;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --surface-color: #121212;
+  --border-color: #e0e0e0;
+  --border-light: rgba(0, 0, 0, 0.1);
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.08);
+  --primary-gradient: linear-gradient(135deg, var(--primary-red), var(--dark-red));
 }
 
-/* Header Styles */
-header {
-    background: linear-gradient(90deg, #ff5f6d, #ffc371);
-    padding: 16px 0;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+/* Events List Styles */
+.events-list-container {
+  margin-bottom: 2rem;
 }
 
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.events-list {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0;
 }
 
-nav ul li {
-    margin: 0 16px;
+.event-list-item {
+  background: var(--background-secondary, #ffffff);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color, #e0e0e0);
+  padding: 1rem;
+  min-width: 200px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
 }
 
-nav ul li a {
-    color: #fff;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 25px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.event-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px var(--shadow-medium);
 }
 
-nav ul li a:hover {
-    background-color: #333;
-    transform: scale(1.1);
+.event-list-item.active {
+  border-color: var(--primary-red);
+  background: rgba(216, 64, 64, 0.05);
 }
 
-/* Container and Section Styles */
-.container {
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+.event-list-item h3 {
+  color: var(--dark-red);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
 }
 
-section {
-    margin-bottom: 40px;
+.event-list-item p {
+  color: var(--text-dark);
+  font-size: 0.9rem;
 }
 
-h2 {
-    color: #ff5f6d;
-    margin-bottom: 20px;
-    font-size: 28px;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+.loading-container,
+.error-container,
+.no-events-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  text-align: center;
+  padding: 2rem;
 }
 
-/* Event Details Styles */
-.event-details {
-    background-color: #fff;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 40px;
+.error-container {
+  color: #C62828;
 }
 
-.event-details p {
-    font-size: 20px;
-    color: #555;
-    margin: 12px 0;
+.event-description {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
 }
 
-/* Registration Form Styles */
-.registration-form {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 60px auto; /* Add top margin for space between sections */
-    transition: transform 0.3s ease;
+.event-description h3 {
+  color: var(--dark-red);
+  margin-bottom: 1rem;
 }
 
-.registration-form:hover {
-    transform: scale(1.02);
+.event-description p {
+  line-height: 1.6;
 }
 
-.registration-form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-    color: #777;
-    text-transform: uppercase;
+.response-message.success {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  border-left: 4px solid #2E7D32;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.15);
 }
 
-.registration-form input,
-.registration-form select {
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
+.response-message.error {
+  background-color: #FFEBEE;
+  color: #C62828;
+  border-left: 4px solid #C62828;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.15);
 }
 
-.registration-form input:focus,
-.registration-form select:focus {
-    border-color: #ff5f6d;
-    outline: none;
+/* Hero Section */
+.event-hero {
+  position: relative;
+  height: 300px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)),
+              url('https://svmhs.somaiya.edu.in/media/images/KJSCE_alumni_committee.jpg');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+  border-radius: 0 0 8px 8px;
+  box-shadow: none;
 }
 
-.registration-form button {
-    width: 100%;
-    padding: 15px;
-    background-color: #ff5f6d;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 18px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+.countdown-banner {
+  text-align: center;
+  color: var(--text-light);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  background: var(--primary-gradient);
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: none;
 }
 
-.registration-form button:hover {
-    background-color: #ffc371;
-    transform: translateY(-3px);
+.countdown-banner h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.registration-form #responseMessage {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 18px;
-    color: #28a745;
+.countdown-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: var(--primary-gradient);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  box-shadow: 0 8px 25px rgba(216, 64, 64, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
-/* Event Schedule Styles */
-.event-schedule {
-    background-color: #fff;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    margin: 0 auto 60px auto; /* Increase bottom margin for space between sections */
-    text-align: center;
-    max-width: 600px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.countdown-display:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(216, 64, 64, 0.4);
+}
+
+.countdown-icon {
+  margin-right: 10px;
+}
+
+/* Main Container */
+.events-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Section Titles */
+.section-title {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--primary-gradient);
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(216, 64, 64, 0.3);
+}
+
+/* Event Details Card */
+.event-details-card {
+  background: var(--background-secondary, #fff);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+/* Event details card doesn't need hover animation as it's a content container */
+
+.event-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.info-icon {
+  color: var(--primary-red);
+  font-size: 1.5rem;
+  margin-right: 1rem;
+  margin-top: 0.25rem;
+}
+
+.info-item h3 {
+  color: var(--dark-red);
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.info-item p {
+  color: var(--text-dark);
+  font-size: 1rem;
+}
+
+/* Two Column Layout */
+.two-column-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Event Schedule Card */
+.event-schedule-card {
+  background: var(--background-secondary, #fff);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.event-schedule-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px var(--shadow-medium);
+}
+
+.timeline {
+  position: relative;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 20px;
+  width: 2px;
+  background-color: var(--primary-red);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 50px;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--primary-red);
+  border: 4px solid var(--light-beige);
+  z-index: 1;
+}
+
+.timeline-time {
+  font-weight: bold;
+  color: var(--primary-red);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-content h3 {
+  color: var(--dark-red);
+  margin-bottom: 0.25rem;
+  font-size: 1.1rem;
+}
+
+.timeline-content p {
+  color: var(--text-dark);
+  font-size: 0.9rem;
+}
+
+/* Registration Card */
+.registration-card {
+  background: var(--background-secondary, #fff);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+:root.dark-theme .registration-card {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+/* Registration cards don't need hover animations as they are forms */
+
+.form-group {
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--dark-red);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.form-group:focus-within label {
+  color: var(--dark-red);
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: #fafbfc;
+  box-shadow: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 2px var(--primary-red);
+  background: #fff;
+  transform: none;
+}
+
+/* .register-button {
+  display: inline;
+  width: 25%;
+  padding: 0.75rem;
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(216, 64, 64, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.register-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(216, 64, 64, 0.3);
+}
+
+.register-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(216, 64, 64, 0.3);
+}
+
+.register-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+} */
+
+.response-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.clear-button {
+  display: inline;
+  width: 25%;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--primary-red);
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.response-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.response-message.success .response-icon {
+  background-color: #2E7D32;
+  color: white;
+}
+
+.response-message.error .response-icon {
+  background-color: #C62828;
+  color: white;
+}
+
+.response-text {
+  flex: 1;
+  text-align: left;
+}
+
+.response-subtext {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.response-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  font-weight: 500;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.required-asterisk {
+  color: #f44336;
+  margin-left: 2px;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.error-input {
+  border-color: #f44336 !important;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* Gallery Section */
+.gallery-section {
+  background: var(--background-secondary, #fff);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.gallery-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px var(--shadow-medium);
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 1.5rem;
+}
+
+.video-card {
+  background: var(--background-secondary, #fff);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px var(--shadow-medium);
+}
+
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-info {
+  padding: 1rem;
+}
+
+.video-info h3 {
+  color: var(--dark-red);
+  margin-bottom: 0.5rem;
+}
+
+.video-info p {
+  color: var(--text-dark);
+  font-size: 0.9rem;
+}
+
+/* Location Section */
+.location-section {
+  background: var(--background-secondary, #fff);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.location-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px var(--shadow-medium);
+}
+
+.map-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.map-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.location-info {
+  text-align: center;
+}
+
+.location-info h3 {
+  color: var(--dark-red);
+  margin-bottom: 0.5rem;
+}
+
+.location-info p {
+  color: var(--text-dark);
+  margin-bottom: 0.5rem;
+}
+
+/* Dark Theme Support */
+:root.dark-theme .event-list-item {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+:root.dark-theme .event-list-item:hover {
+  box-shadow: 0 8px 25px var(--shadow-color);
+}
+
+:root.dark-theme .event-list-item.active {
+  border-color: var(--primary-red);
+  background: rgba(255, 107, 107, 0.1);
+}
+
+:root.dark-theme .event-card {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+:root.dark-theme .event-card h3 {
+  color: var(--text-dark);
+}
+
+:root.dark-theme .event-card p {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .countdown-banner {
+  background: var(--surface-color);
+  border-color: var(--border-color);
 }
 
 
-.event-schedule ul {
-    list-style-type: none;
-    padding: 0;
-    color: #555;
-    text-align: left;
-    max-width: 600px;
-    margin: 0 auto;
+:root.dark-theme .countdown-banner h1 {
+  color: var(--text-dark);
 }
 
-.event-schedule ul li {
-    font-size: 18px;
-    margin: 12px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+:root.dark-theme .event-details {
+  background: var(--surface-color);
+  border-color: var(--border-color);
 }
 
-.event-schedule ul li::before {
-    content: "🕒";
-    color: #ff5f6d;
-    margin-right: 12px;
-    font-size: 24px;
+:root.dark-theme .event-details h2 {
+  color: var(--text-dark);
 }
 
-/* Countdown Timer Styles */
-.countdown-timer {
-    background-color: #fff;
-    padding: 32px;
-    border-radius: 16px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    margin-bottom: 40px;
+:root.dark-theme .event-details p {
+  color: var(--text-secondary);
 }
 
-.countdown-timer div {
-    font-size: 22px;
-    color: #333;
-    margin: 12px 0;
-    font-weight: bold;
+:root.dark-theme .register-button {
+  background: var(--primary-gradient);
+  color: var(--text-light);
 }
 
-/* Video Section Styles */
-.video-boxes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+:root.dark-theme .section-title {
+  background:none ;
+  color: var(--primary-red) ;
 }
 
-.box {
-    flex: 1 1 calc(45% - 20px);
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .two-column-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .event-schedule-card {
+    order: 2;
+  }
+
+  .registration-card {
+    order: 1;
+  }
 }
 
-.box:hover {
-    transform: scale(1.03);
+@media (max-width: 768px) {
+  .event-hero {
+    height: 250px;
+  }
+
+  .countdown-banner h1 {
+    font-size: 2rem;
+  }
+
+  .countdown-display {
+    font-size: 1.25rem;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.box iframe {
-    width: 100%;
-    height: 450px;
-    border-radius: 16px 16px 0 0;
+@media (max-width: 576px) {
+  .event-hero {
+    height: 200px;
+  }
+
+  .countdown-banner h1 {
+    font-size: 1.75rem;
+  }
+
+  .countdown-display {
+    font-size: 1rem;
+  }
+
+  .event-info {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
 }
 

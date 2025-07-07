@@ -1,0 +1,63 @@
+/* Admin Login - Uses Auth.css base styling with minimal customizations */
+
+/* Admin-specific customizations only */
+.admin-form {
+  border-top: 4px solid var(--primary-red);
+  max-width: 420px;
+}
+
+.admin-header {
+  margin-bottom: 2rem;
+}
+
+.admin-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--primary-red);
+  text-shadow: 0 2px 4px rgba(216, 64, 64, 0.2);
+}
+
+/* Admin Login Button Customization */
+.admin-login-button {
+  background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(216, 64, 64, 0.2);
+}
+
+.admin-login-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--dark-red), var(--primary-red));
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(216, 64, 64, 0.3);
+}
+
+.admin-login-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.7;
+}
+
+/* Security Notice */
+.admin-security-notice {
+  background: rgba(216, 64, 64, 0.05);
+  border: 1px solid rgba(216, 64, 64, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-dark);
+  margin-top: 1rem;
+}
+
+.admin-security-notice strong {
+  color: var(--primary-red);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Dark theme overrides for admin-specific elements */
+:root.dark-theme .admin-security-notice {
+  background: rgba(216, 64, 64, 0.1);
+  color: var(--text-dark);
+}

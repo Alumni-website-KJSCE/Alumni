@@ -1,0 +1,317 @@
+/* Job Filter Styles */
+.job-filter {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--primary-gradient);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.filter-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(216, 64, 64, 0.3);
+}
+
+.filter-button.expanded {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.filter-icon {
+  font-size: 1rem;
+}
+
+.filter-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.5rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  min-width: 1.5rem;
+  text-align: center;
+}
+
+.clear-filters-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-filters-button:hover {
+  background: rgba(255, 107, 107, 0.15);
+  transform: translateY(-1px);
+}
+
+.job-counts {
+  display: flex;
+  align-items: center;
+}
+
+.results-count {
+  color: #666;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.filter-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.filter-content.expanded {
+  max-height: 600px;
+  padding: 2rem;
+}
+
+.filter-group {
+  margin-bottom: 2rem;
+}
+
+.filter-group:last-child {
+  margin-bottom: 0;
+}
+
+.filter-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: var(--dark-red);
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.search-icon {
+  color: var(--primary-red);
+  font-size: 0.9rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  background: #fafafa;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(216, 64, 64, 0.1);
+}
+
+.filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.filter-option {
+  background: #f8f9fa;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  color: #666;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-option:hover {
+  background: rgba(216, 64, 64, 0.05);
+  border-color: rgba(216, 64, 64, 0.2);
+  color: var(--primary-red);
+  transform: translateY(-1px);
+}
+
+.filter-option.active {
+  background: var(--primary-gradient);
+  border-color: var(--primary-red);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(216, 64, 64, 0.4);
+  transform: translateY(-2px);
+  position: relative;
+  padding-left: 2rem;
+  animation: selectPulse 0.3s ease-out;
+}
+
+.filter-option.active::before {
+  content: '✓';
+  position: absolute;
+  left: 0.6rem;
+  font-weight: bold;
+  font-size: 0.8rem;
+}
+
+@keyframes selectPulse {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 2px 8px rgba(216, 64, 64, 0.2);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(216, 64, 64, 0.5);
+  }
+  100% {
+    transform: translateY(-2px) scale(1);
+    box-shadow: 0 4px 16px rgba(216, 64, 64, 0.4);
+  }
+}
+
+/* Dark Theme Support */
+:root.dark-theme .job-filter {
+  background: var(--surface-color);
+  border-color: var(--border-light);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+:root.dark-theme .filter-header {
+  border-bottom-color: var(--border-light);
+}
+
+:root.dark-theme .filter-label {
+  color: var(--text-primary);
+}
+
+:root.dark-theme .results-count {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .search-input {
+  background: var(--background-secondary);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+}
+
+:root.dark-theme .search-input:focus {
+  background: var(--surface-color);
+  border-color: var(--primary-red);
+}
+
+:root.dark-theme .filter-option {
+  background: var(--background-secondary);
+  border-color: var(--border-light);
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .filter-option:hover {
+  background: rgba(255, 107, 107, 0.1);
+  border-color: rgba(255, 107, 107, 0.3);
+  color: var(--primary-red);
+}
+
+:root.dark-theme .filter-option.active {
+  background: var(--primary-gradient);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.4);
+  transform: translateY(-2px);
+  padding-left: 2rem;
+  animation: selectPulse 0.3s ease-out;
+}
+
+:root.dark-theme .clear-filters-button {
+  background: rgba(255, 107, 107, 0.15);
+  border-color: rgba(255, 107, 107, 0.3);
+  color: #ff6b6b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .filter-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .filter-toggle {
+    justify-content: space-between;
+  }
+
+  .filter-content.expanded {
+    padding: 1.5rem;
+  }
+
+  .filter-options {
+    gap: 0.5rem;
+  }
+
+  .filter-option {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .search-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-header {
+    padding: 1rem 1.5rem;
+  }
+
+  .filter-content.expanded {
+    padding: 1rem 1.5rem;
+  }
+
+  .filter-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .clear-filters-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}

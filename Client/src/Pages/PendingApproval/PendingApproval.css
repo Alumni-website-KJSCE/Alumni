@@ -1,0 +1,165 @@
+/* Pending Approval Page Styles */
+.pending-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.loading-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+}
+
+.loading-spinner {
+  color: var(--primary-red);
+  font-size: 1.2rem;
+}
+
+.pending-icon {
+  margin: 2rem 0;
+}
+
+.pending-message {
+  margin-bottom: 2.5rem;
+}
+
+.pending-message p {
+  margin: 0.75rem 0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.pending-info {
+  background-color: #F5F5F5;
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem 0;
+  text-align: left;
+}
+
+.pending-info h3 {
+  color: var(--dark-red);
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-weight: 500;
+  color: #757575;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.info-value {
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+.status-pending {
+  color: #F57F17;
+  font-weight: 500;
+}
+
+.pending-actions {
+  margin-top: 2.5rem;
+}
+
+.pending-actions p {
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.pending-actions a {
+  color: var(--primary-red);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.pending-actions a:hover {
+  text-decoration: underline;
+}
+
+.logout-button {
+  background-color: transparent;
+  color: var(--primary-red);
+  border: 2px solid var(--primary-red);
+  border-radius: 8px;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: var(--primary-red);
+  color: #FFFFFF;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.error-message {
+  background-color: #FFEBEE;
+  color: #C62828;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem 0;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* Dark Theme Support */
+:root.dark-theme .pending-message p {
+  color: var(--text-dark);
+}
+
+:root.dark-theme .pending-info {
+  background-color: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+:root.dark-theme .pending-info h3 {
+  color: var(--primary-red);
+}
+
+:root.dark-theme .info-item {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .info-label {
+  color: var(--text-dark);
+}
+
+
+:root.dark-theme .contact-info p {
+  color: var(--text-dark);
+}
+
+
+
+:root.dark-theme .loading-spinner {
+  color: var(--primary-red);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}

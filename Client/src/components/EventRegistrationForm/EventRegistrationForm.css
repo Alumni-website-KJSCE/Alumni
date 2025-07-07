@@ -1,0 +1,406 @@
+/* CSS Variables for modern design */
+:root {
+  --primary-red: #D84040;
+  --dark-red: #A31D1D;
+  --light-beige: #f5f7fa;
+  --pale-beige: #c3cfe2;
+  --text-dark: #333333;
+  --text-light: #FFFFFF;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --primary-gradient: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+  --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --text-gradient: linear-gradient(135deg, #2c3e50, #34495e);
+}
+
+/* EventRegistrationForm.css */
+.registration-form-container {
+  background: var(--glass-bg);
+  backdrop-filter: blur(15px);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--glass-border);
+  padding: 2.5rem;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+.section-title {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-size: 1.85rem;
+  margin-bottom: 1.8rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 3px;
+  background: var(--primary-gradient);
+  border-radius: 2px;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+.clear-button{
+  height: 100;
+  margin-top: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--dark-red);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.form-group:focus-within label {
+  color: var(--dark-red);
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #FFFFFF;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-red);
+  box-shadow: 0 0 0 3px rgba(216, 64, 64, 0.15);
+  transform: translateY(-1px);
+}
+
+.form-group input::placeholder,
+.form-group select::placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.required-asterisk {
+  color: #f44336;
+  margin-left: 2px;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  font-weight: 500;
+}
+
+.error-input {
+  border-color: #f44336 !important;
+  background-color: rgba(244, 67, 54, 0.05);
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.button-group .register-button {
+  flex: 2;
+}
+
+.button-group .clear-button {
+  flex: 1;
+}
+
+.register-button, 
+.clear-button {
+  min-height: 44px; /* Touch-friendly size */
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.register-button {
+  flex: 2;
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  border: none;
+  box-shadow: 0 4px 12px rgba(var(--primary-red-rgb), 0.2);
+}
+
+.clear-button {
+  flex: 1;
+  background: transparent;
+  color: var(--dark-red);
+  border: 2px solid var(--primary-red);
+}
+
+.register-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(var(--primary-red-rgb), 0.3);
+}
+
+.clear-button:hover {
+  background: rgba(var(--primary-red-rgb), 0.1);
+}
+
+.register-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--primary-red);
+  color: var(--text-light);
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.register-button:hover {
+  background-color: var(--dark-red);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.register-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.clear-button {
+  padding: 0.75rem;
+  background-color: transparent;
+  color: var(--dark-red);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-button:hover {
+  background-color: #f5f5f5;
+  border-color: var(--primary-red);
+}
+
+.response-message {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  font-weight: 500;
+  animation: fadeIn 0.5s;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.response-message.success {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+  border-left: 4px solid #2E7D32;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.15);
+}
+
+.response-message.error {
+  background-color: #FFEBEE;
+  color: #C62828;
+  border-left: 4px solid #C62828;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.15);
+}
+
+.response-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.response-message.success .response-icon {
+  background-color: #2E7D32;
+  color: white;
+}
+
+.response-message.error .response-icon {
+  background-color: #C62828;
+  color: white;
+}
+
+.response-text {
+  flex: 1;
+  text-align: left;
+}
+
+.response-subtext {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+  }
+  
+  .register-button, 
+  .clear-button {
+    width: 100%;
+    flex: none;
+    min-height: 48px;
+    font-size: 1rem;
+  }
+  
+  .registration-form-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .button-group {
+    gap: 0.625rem;
+    margin: 1rem 0;
+  }
+  
+  .register-button, 
+  .clear-button {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+    border-radius: 6px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .register-button, 
+  .clear-button {
+    min-height: 50px; /* Even more touch-friendly */
+  }
+  
+  .button-group {
+    gap: 0.875rem;
+  }
+}
+
+/* Dark Theme Support */
+:root.dark-theme .registration-form-container {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+:root.dark-theme .section-title {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root.dark-theme .section-title::after {
+  background: var(--primary-gradient);
+}
+
+:root.dark-theme .form-group label {
+  color: var(--text-dark);
+}
+
+:root.dark-theme .form-group input,
+:root.dark-theme .form-group select,
+:root.dark-theme .form-group textarea {
+  background: rgba(45, 45, 45, 0.5);
+  border-color: var(--border-color);
+  color: var(--text-dark);
+}
+
+:root.dark-theme .form-group input:focus,
+:root.dark-theme .form-group select:focus,
+:root.dark-theme .form-group textarea:focus {
+  border-color: var(--primary-red);
+  background: rgba(45, 45, 45, 0.7);
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.25);
+}
+
+:root.dark-theme .form-group input::placeholder,
+:root.dark-theme .form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+:root.dark-theme .submit-button {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+}
+
+:root.dark-theme .submit-button:hover {
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+:root.dark-theme .event-details {
+  background: var(--surface-color);
+  border-color: var(--border-color);
+}
+
+:root.dark-theme .event-details h3 {
+  color: var(--text-dark);
+}
+
+:root.dark-theme .event-details p {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .proof-upload {
+  background: rgba(45, 45, 45, 0.3);
+  border-color: var(--border-color);
+}

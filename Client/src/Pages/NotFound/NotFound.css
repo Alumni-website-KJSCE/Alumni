@@ -1,0 +1,110 @@
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.not-found-content {
+  max-width: 500px;
+  width: 100%;
+}
+
+.not-found-title {
+  font-size: 8rem;
+  font-weight: 900;
+  color: var(--primary-color, #2563eb);
+  margin: 0;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.not-found-subtitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 1rem 0;
+}
+
+.not-found-message {
+  font-size: 1.1rem;
+  color: var(--text-secondary, #6b7280);
+  margin: 1.5rem 0 2rem 0;
+  line-height: 1.6;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-block;
+  min-width: 120px;
+}
+
+.btn-primary {
+  background-color: var(--primary-color, #2563eb);
+  color: white;
+  border: 2px solid var(--primary-color, #2563eb);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover, #1d4ed8);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: var(--primary-color, #2563eb);
+  border: 2px solid var(--primary-color, #2563eb);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color, #2563eb);
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Dark theme support */
+[data-theme="dark"] .not-found-subtitle {
+  color: var(--text-primary-dark, #f9fafb);
+}
+
+[data-theme="dark"] .not-found-message {
+  color: var(--text-secondary-dark, #d1d5db);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .not-found-title {
+    font-size: 6rem;
+  }
+
+  .not-found-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .not-found-message {
+    font-size: 1rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 200px;
+  }
+}

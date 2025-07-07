@@ -1,0 +1,333 @@
+/* Dark Theme Variables and Styles */
+
+/* Light theme variables (default) */
+:root,
+:root.light-theme {
+  /* Color Scheme */
+  --primary-red: #D84040;
+  --dark-red: #A31D1D;
+  
+  /* Background Colors */
+  --background-primary: #f7f9fc;
+  --background-secondary: #ffffff;
+  --background-tertiary: #f0f2f5;
+  
+  /* Text Colors */
+  --text-dark: #333333;
+  --text-secondary: #666666;
+  --text-muted: #999999;
+  --text-light: #FFFFFF;
+  
+  /* Border and Shadow */
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-color: #e0e0e0;
+  --shadow-light: rgba(0, 0, 0, 0.05);
+  --shadow-medium: rgba(0, 0, 0, 0.08);
+  
+  /* Gradients */
+  --primary-gradient: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+}
+
+/* Dark theme variables */
+:root.dark-theme {
+  /* Color Scheme */
+  --primary-red: #ff6b6b;
+  --dark-red: #ff5252;
+  
+  /* Background Colors */
+  --background-primary: #121212;
+  --background-secondary: #1e1e1e;
+  --background-tertiary: #2d2d2d;
+  
+  /* Text Colors */
+  --text-dark: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #999999;
+  --text-light: #000000;
+  
+  /* Border and Shadow */
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-color: #333333;
+  --shadow-light: rgba(0, 0, 0, 0.2);
+  --shadow-medium: rgba(0, 0, 0, 0.3);
+  
+  /* Gradients */
+  --primary-gradient: linear-gradient(135deg, #ff6b6b, #ff5252);
+  --surface-color: rgba(40, 40, 40, 0.95);
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --shadow-light: rgba(0, 0, 0, 0.3);
+  --shadow-medium: rgba(0, 0, 0, 0.4);
+  --shadow-heavy: rgba(0, 0, 0, 0.6);
+}
+
+/* Dark theme global overrides */
+:root.dark-theme body {
+  background: var(--bg-gradient);
+  color: var(--text-dark);
+}
+
+/* Dark theme AdminLogin specific styles */
+:root.dark-theme .admin-login-container {
+  background: var(--background-primary) !important;
+}
+
+:root.dark-theme .admin-login-form {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  color: var(--text-primary);
+}
+
+:root.dark-theme .admin-login-form h2 {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root.dark-theme .form-group label {
+  color: var(--text-primary);
+}
+
+:root.dark-theme .form-group input {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+:root.dark-theme .form-group input::placeholder {
+  color: var(--text-muted);
+}
+
+:root.dark-theme .form-group input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--primary-red);
+}
+
+:root.dark-theme .admin-subtitle {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .security-note {
+  background: rgba(255, 107, 107, 0.1);
+  color: var(--text-secondary);
+  border-color: rgba(255, 107, 107, 0.2);
+}
+
+:root.dark-theme .error-message {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid rgba(255, 107, 107, 0.2);
+}
+
+/* Global Dark Theme Message Styles */
+:root.dark-theme .success-message {
+  color: #51cf66;
+  background: rgba(81, 207, 102, 0.1);
+  border: 1px solid rgba(81, 207, 102, 0.2);
+}
+
+:root.dark-theme .warning-message {
+  color: #ffd43b;
+  background: rgba(255, 212, 59, 0.1);
+  border: 1px solid rgba(255, 212, 59, 0.2);
+}
+
+:root.dark-theme .info-message {
+  color: #339af0;
+  background: rgba(51, 154, 240, 0.1);
+  border: 1px solid rgba(51, 154, 240, 0.2);
+}
+
+:root.dark-theme .loading-spinner {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: var(--primary-red);
+}
+
+/* Dark theme navigation */
+:root.dark-theme .main-nav {
+  background: var(--glass-bg);
+  border-bottom-color: var(--glass-border);
+}
+
+:root.dark-theme .nav-links li a {
+  color: var(--text-primary);
+}
+
+:root.dark-theme .nav-links li a:hover {
+  color: var(--primary-red);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+:root.dark-theme .user-button {
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  border-color: var(--glass-border);
+}
+
+:root.dark-theme .dropdown-menu {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+}
+
+:root.dark-theme .dropdown-item {
+  color: var(--text-primary);
+}
+
+:root.dark-theme .dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--primary-red);
+}
+
+/* Dark theme forms and cards */
+:root.dark-theme .card,
+:root.dark-theme .newsletter-item,
+:root.dark-theme .event-card,
+:root.dark-theme .job-card,
+:root.dark-theme .alumni-card {
+  background: var(--surface-color);
+  border-color: var(--border-light);
+  color: var(--text-primary);
+}
+
+:root.dark-theme .card h3,
+:root.dark-theme .card h2,
+:root.dark-theme .section-title {
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+:root.dark-theme .card p,
+:root.dark-theme .card-text {
+  color: var(--text-secondary);
+}
+
+/* Dark theme buttons */
+:root.dark-theme .btn,
+:root.dark-theme button:not(.theme-toggle):not(.admin-login-button) {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  border-color: transparent;
+}
+
+:root.dark-theme .btn:hover,
+:root.dark-theme button:not(.theme-toggle):not(.admin-login-button):hover {
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+}
+
+/* Dark theme inputs */
+:root.dark-theme input,
+:root.dark-theme select,
+:root.dark-theme textarea {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+:root.dark-theme input::placeholder,
+:root.dark-theme select::placeholder,
+:root.dark-theme textarea::placeholder {
+  color: var(--text-muted);
+}
+
+:root.dark-theme input:focus,
+:root.dark-theme select:focus,
+:root.dark-theme textarea:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--primary-red);
+}
+
+/* Dark theme footer */
+:root.dark-theme .footer {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+:root.dark-theme .footer-link {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .footer-link:hover {
+  color: var(--primary-red);
+}
+
+/* Dark theme tables */
+:root.dark-theme table {
+  background: var(--surface-color);
+  color: var(--text-primary);
+}
+
+:root.dark-theme th {
+  background: var(--background-secondary);
+  color: var(--text-primary);
+}
+
+:root.dark-theme td {
+  border-color: var(--border-light);
+  color: var(--text-secondary);
+}
+
+/* Dark theme modals */
+:root.dark-theme .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+:root.dark-theme .modal-content {
+  background: var(--surface-color);
+  color: var(--text-primary);
+  border-color: var(--border-light);
+}
+
+/* Dark theme loading and error states */
+:root.dark-theme .loading-container,
+:root.dark-theme .error-container,
+:root.dark-theme .no-events-container {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .error-container {
+  color: var(--primary-red);
+}
+
+/* Dark theme scrollbars */
+:root.dark-theme ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+:root.dark-theme ::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+:root.dark-theme ::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 4px;
+}
+
+:root.dark-theme ::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Smooth transitions for theme switching */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Preserve specific component transitions */
+.admin-login-form,
+.admin-login-button,
+.form-group input,
+.nav-links li a,
+.dropdown-item {
+  transition: all 0.3s ease !important;
+}
+
+/* Prevent transition on theme toggle elements */
+.theme-toggle,
+.theme-toggle * {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
