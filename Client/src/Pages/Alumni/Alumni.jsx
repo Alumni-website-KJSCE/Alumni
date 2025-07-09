@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axiosInstance from "../../utils/axiosConfig";
 import "./Alumni.css";
 
+const API_URL = import.meta.env.VITE_API_URL
+
 // FAQ Item Component
 const FAQItem = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -475,7 +477,7 @@ const AlumniPage = () => {
                         <div className="profile-image-container">
                           {alum.profileImage ? (
                             <img
-                              src={`http://localhost:3001${alum.profileImage}`}
+                              src={`${API_URL}${alum.profileImage}`}
                               alt={alum.Name}
                             />
                           ) : (

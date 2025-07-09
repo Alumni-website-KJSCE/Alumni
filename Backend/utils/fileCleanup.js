@@ -157,9 +157,8 @@ async function cleanupOrphanedFiles(directory, activeFiles = []) {
     // Get the list of active file names from the full paths
     const activeFileNames = activeFiles.map((filePath) => {
       // Handle both absolute and relative paths
-      return filePath.startsWith("/uploads/")
-        ? path.basename(filePath)
-        : path.basename(filePath);
+      const basename = path.basename(filePath);
+      return basename;
     });
 
     console.log(
@@ -167,7 +166,7 @@ async function cleanupOrphanedFiles(directory, activeFiles = []) {
     );
     console.log("Active files:", activeFileNames);
 
-    const RETENTION_PERIOD = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const RETENTION_PERIOD = 24 * 60 * 60 * 1000; // 24 hours in milliseconds - files must be older than this to be deleted
     const now = Date.now();
 
     for (const file of files) {
@@ -178,7 +177,7 @@ async function cleanupOrphanedFiles(directory, activeFiles = []) {
         continue;
       }
 
-      // Check if file is in active files list
+      // Check if file is in active files list - comparing basename to basename
       if (!activeFileNames.includes(file)) {
         // Only delete files older than retention period
         if (now - stats.mtimeMs < RETENTION_PERIOD) {
@@ -229,18 +228,28 @@ async function runOrphanedFileCleanup() {
 
     // Check database connection
     if (mongoose.connection.readyState !== 1) {
-      await mongoose.connect("mongodb://localhost:27017/alumni");
+      console.error(
+        "File cleanup: Database not connected. Skipping file cleanup.",
+      );
+      return {
+        success: false,
+        totalDeleted: 0,
+        totalErrors: 1,
+        error: "Database not connected",
+      };
     }
 
     // Import models to get active file references
     const User = (await import("../Models/User.js")).default;
     const Event = (await import("../Models/Event.js")).default;
+    const Article = (await import("../Models/Article.js")).default;
     const SiteSettings = (await import("../Models/SiteSettings.js")).default;
 
     // Get all active file references
-    const [users, events, siteSettings] = await Promise.all([
-      User.find({}, "profilePicture").lean(),
+    const [users, events, articles, siteSettings] = await Promise.all([
+      User.find({}, "profilePicture attendanceProof").lean(),
       Event.find({}, "imageUrl").lean(),
+      Article.find({}, "imageUrl").lean(),
       SiteSettings.findOne({}, "galleryImages").lean(),
     ]);
 
@@ -253,7 +262,32 @@ async function runOrphanedFileCleanup() {
       .filter((event) => event.imageUrl)
       .map((event) => event.imageUrl);
 
+    const activeArticleImages = articles
+      .filter((article) => article.imageUrl)
+      .map((article) => article.imageUrl);
+
     const activeGalleryImages = siteSettings?.galleryImages || [];
+
+    // Collect attendance proof files
+    const activeAttendanceProofs = users
+      .filter((user) => user.attendanceProof)
+      .map((user) => user.attendanceProof);
+
+    console.log(
+      `File cleanup: Active profile images: ${activeProfileImages.length}`,
+    );
+    console.log(
+      `File cleanup: Active event images: ${activeEventImages.length}`,
+    );
+    console.log(
+      `File cleanup: Active article images: ${activeArticleImages.length}`,
+    );
+    console.log(
+      `File cleanup: Active gallery images: ${activeGalleryImages.length}`,
+    );
+    console.log(
+      `File cleanup: Active attendance proofs: ${activeAttendanceProofs.length}`,
+    );
 
     // Clean up each directory
     const results = {
@@ -262,10 +296,15 @@ async function runOrphanedFileCleanup() {
         activeProfileImages,
       ),
       eventImages: await cleanupOrphanedFiles("eventImages", activeEventImages),
+      articleImages: await cleanupOrphanedFiles(
+        "articles",
+        activeArticleImages,
+      ),
       galleryImages: await cleanupOrphanedFiles(
         "galleryImages",
         activeGalleryImages,
       ),
+      mainUploads: await cleanupOrphanedFiles("", activeAttendanceProofs),
     };
 
     const totalDeleted = Object.values(results).reduce(

@@ -23,6 +23,8 @@ import PageTransition from "./components/PageTransition/PageTransition";
 import CompleteProfile from "./Pages/CompleteProfile";
 import AuthCallback from "./components/AuthCallback/AuthCallback";
 import NotFound from "./Pages/NotFound/NotFound";
+import ContactUs from "./Pages/ContactUs/ContactUs";
+import Credits from "./Pages/Credits/Credits";
 import "./styles/darkTheme.css";
 
 // Protected route wrapper for admin routes
@@ -175,7 +177,8 @@ function App() {
                     </UserRoute>
                   </PageTransition>
                 }
-              />{" "}
+              />
+              {/* Newsletter management routes will be handled in admin dashboard */}
               <Route
                 path="admin"
                 element={
@@ -234,6 +237,22 @@ function App() {
                       {" "}
                       <CompleteProfile />
                     </ProfileRoute>
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="contact-us"
+                element={
+                  <PageTransition>
+                    <ContactUs />
+                  </PageTransition>
+                }
+              />
+              <Route
+                path="credits"
+                element={
+                  <PageTransition>
+                    <Credits />
                   </PageTransition>
                 }
               />

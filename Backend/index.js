@@ -17,6 +17,7 @@ import jobRouter from "./routes/jobs.js";
 import eventRouter from "./routes/events.js";
 import adminRouter from "./routes/admin.js";
 import settingsRouter from "./routes/settings.js";
+import newsletterRouter from "./routes/newsletters.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -106,7 +107,7 @@ mongoose
   .connect(process.env.MONGO_URI, {
     serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
   })
-  .then(() => {
+  .then(async () => {
     console.log("Connected to MongoDB");
   })
   .catch((err) => {
@@ -208,7 +209,25 @@ app.use("/api/user", userRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api/events", eventRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/newsletters", newsletterRouter);
 app.use("/api", settingsRouter);
+app.get("/api/trigger-cleanup", async (req, res) => {
+  console.log("Manual cleanup triggered");
+  try {
+    const { runOrphanedFileCleanup } = await import("./utils/fileCleanup.js");
+    const results = await runOrphanedFileCleanup();
+    res.status(200).json({
+      message: "Cleanup completed",
+      results: results,
+    });
+  } catch (error) {
+    console.error("Error during manual cleanup:", error);
+    res.status(500).json({
+      message: "Cleanup failed",
+      error: error.message,
+    });
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;

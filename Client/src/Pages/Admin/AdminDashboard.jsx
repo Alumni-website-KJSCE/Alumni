@@ -22,11 +22,14 @@ import {
   FaGraduationCap,
   FaLink,
   FaNewspaper,
-  FaGlobe,
   FaBullhorn,
   FaImage,
   FaVideo,
+  FaUpload,
+  FaDownload,
 } from "react-icons/fa";
+
+const API_URL = import.meta.env.VITE_API_URL
 
 // Utility function to validate URLs
 const isValidURL = (url) => {
@@ -38,6 +41,576 @@ const isValidURL = (url) => {
   } catch (error) {
     return false;
   }
+};
+
+// Article Management Component
+const ArticleManagement = ({ actionMessage, setActionMessage }) => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [showArticleForm, setShowArticleForm] = useState(false);
+  const [editingArticle, setEditingArticle] = useState(null);
+  const [articleFormData, setArticleFormData] = useState({
+    title: '',
+    description: '',
+    linkUrl: '',
+    linkText: 'Read more',
+    order: 1,
+    image: null
+  });
+
+  useEffect(() => {
+    fetchArticles();
+  }, []);
+
+  const fetchArticles = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get('/api/newsletters/articles');
+      setArticles(response.data.articles);
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+      setActionMessage({
+        type: 'error',
+        text: 'Failed to fetch articles'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!articleFormData.title || !articleFormData.description) {
+      setActionMessage({
+        type: 'error',
+        text: 'Title and description are required'
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', articleFormData.title);
+    formData.append('description', articleFormData.description);
+    formData.append('linkUrl', articleFormData.linkUrl);
+    formData.append('linkText', articleFormData.linkText);
+    formData.append('order', articleFormData.order);
+    
+    if (articleFormData.image) {
+      formData.append('image', articleFormData.image);
+    }
+
+    try {
+      if (editingArticle) {
+        await axiosInstance.put(`/api/newsletters/articles/${editingArticle._id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        setActionMessage({
+          type: 'success',
+          text: 'Article updated successfully'
+        });
+      } else {
+        await axiosInstance.post('/api/newsletters/articles', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        setActionMessage({
+          type: 'success',
+          text: 'Article created successfully'
+        });
+      }
+      
+      // Reset form
+      setArticleFormData({
+        title: '',
+        description: '',
+        linkUrl: '',
+        linkText: 'Read more',
+        order: 1,
+        image: null
+      });
+      setEditingArticle(null);
+      setShowArticleForm(false);
+      document.getElementById('article-image-input').value = '';
+      
+      // Refresh articles
+      fetchArticles();
+    } catch (error) {
+      console.error('Error saving article:', error);
+      setActionMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to save article'
+      });
+    }
+  };
+
+  const handleEdit = (article) => {
+    setEditingArticle(article);
+    setArticleFormData({
+      title: article.title,
+      description: article.description,
+      linkUrl: article.linkUrl || '',
+      linkText: article.linkText || 'Read more',
+      order: article.order || 1,
+      image: null
+    });
+    setShowArticleForm(true);
+  };
+
+  const handleDelete = async (articleId) => {
+    if (!window.confirm('Are you sure you want to delete this article?')) {
+      return;
+    }
+
+    try {
+      await axiosInstance.delete(`/api/newsletters/articles/${articleId}`);
+      setActionMessage({
+        type: 'success',
+        text: 'Article deleted successfully'
+      });
+      fetchArticles();
+    } catch (error) {
+      console.error('Error deleting article:', error);
+      setActionMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to delete article'
+      });
+    }
+  };
+
+  const handleCancel = () => {
+    setShowArticleForm(false);
+    setEditingArticle(null);
+    setArticleFormData({
+      title: '',
+      description: '',
+      linkUrl: '',
+      linkText: 'Read more',
+      order: 1,
+      image: null
+    });
+    document.getElementById('article-image-input').value = '';
+  };
+
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+      setArticleFormData(prev => ({ ...prev, image: file }));
+    } else {
+      setActionMessage({
+        type: 'error',
+        text: 'Please select a valid image file'
+      });
+      e.target.value = '';
+    }
+  };
+
+  return (
+    <div className="article-management-container">
+      <div className="section-header" style={{display:"block",width:"752px"}}>
+        <h3 style={{display:"block"}}><FaNewspaper /> Featured Articles Management</h3>
+        <button 
+          className="approve-button"
+          onClick={() => setShowArticleForm(true)}
+          aria-label="Add new featured article"
+          style={{alignItems:"center"}}
+        >
+          <FaPlus /> Add New Article
+        </button>
+      </div>
+
+      {showArticleForm && (
+        <div className="article-form-section">
+          <h4>{editingArticle ? 'Edit Article' : 'Create New Article'}</h4>
+          <form onSubmit={handleFormSubmit} className="article-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="article-title">Title *</label>
+                <input
+                  id="article-title"
+                  type="text"
+                  value={articleFormData.title}
+                  onChange={(e) => setArticleFormData(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="Article title"
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="article-order">Display Order</label>
+                <input
+                  id="article-order"
+                  type="number"
+                  value={articleFormData.order}
+                  onChange={(e) => setArticleFormData(prev => ({ ...prev, order: parseInt(e.target.value) || 1 }))}
+                  min="1"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="article-description">Description *</label>
+              <textarea
+                id="article-description"
+                value={articleFormData.description}
+                onChange={(e) => setArticleFormData(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="Article description"
+                rows="4"
+                required
+              />
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="article-link-url">Link URL</label>
+                <input
+                  id="article-link-url"
+                  type="url"
+                  value={articleFormData.linkUrl}
+                  onChange={(e) => setArticleFormData(prev => ({ ...prev, linkUrl: e.target.value }))}
+                  placeholder="https://example.com"
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="article-link-text">Link Text</label>
+                <input
+                  id="article-link-text"
+                  type="text"
+                  value={articleFormData.linkText}
+                  onChange={(e) => setArticleFormData(prev => ({ ...prev, linkText: e.target.value }))}
+                  placeholder="Read more"
+                />
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="article-image-input">Article Image</label>
+              <div className="file-input-wrapper">
+                <input
+                  id="article-image-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageSelect}
+                />
+              </div>
+              <small>Choose an image for the article (max 5MB)</small>
+            </div>
+
+            <div className="form-actions">
+              <button type="submit" className="approve-button">
+                {editingArticle ? 'Update Article' : 'Create Article'}
+              </button>
+              <button type="button" onClick={handleCancel} className="reject-button">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      <div className="articles-list">
+        <h4>Current Articles</h4>
+        {loading ? (
+          <div className="loading-state">
+            <div className="loading-spinner"></div>
+            <p>Loading articles...</p>
+          </div>
+        ) : articles.length === 0 ? (
+          <p className="no-articles">No articles found.</p>
+        ) : (
+          <div className="articles-grid">
+            {articles.map(article => (
+              <div key={article._id} className="article-card">
+                <div className="article-image-preview">
+                  {article.imageUrl ? (
+                    <img 
+                      src={`${API_URL}${article.imageUrl}`} 
+                      alt={article.title}
+                    />
+                  ) : (
+                    <div className="no-image-placeholder">No Image</div>
+                  )}
+                </div>
+                <div className="article-info">
+                  <h5>{article.title}</h5>
+                  <p>{article.description.substring(0, 100)}...</p>
+                  <div className="article-meta">
+                    <span>Order: {article.order}</span>
+                    {article.linkUrl && <span>Has Link</span>}
+                  </div>
+                </div>
+                <div className="article-actions">
+                  <button
+                    onClick={() => handleEdit(article)}
+                    className="edit-button"
+                    aria-label={`Edit article: ${article.title}`}
+                  >
+                    <FaEdit /> Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(article._id)}
+                    className="delete-button"
+                    aria-label={`Delete article: ${article.title}`}
+                  >
+                    <FaTrash /> Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Newsletter Management Component
+const NewsletterManagement = ({ actionMessage, setActionMessage }) => {
+  const [newsletters, setNewsletters] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [activeNewsletterTab, setActiveNewsletterTab] = useState("newsletters");
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  useEffect(() => {
+    fetchNewsletters();
+  }, []);
+
+  const fetchNewsletters = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get('/api/newsletters');
+      setNewsletters(response.data.newsletters);
+    } catch (error) {
+      console.error('Error fetching newsletters:', error);
+      setActionMessage({
+        type: 'error',
+        text: 'Failed to fetch newsletters'
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFileSelect = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type === 'application/pdf') {
+      setSelectedFile(file);
+    } else {
+      setActionMessage({
+        type: 'error',
+        text: 'Please select a PDF file'
+      });
+      e.target.value = '';
+    }
+  };
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    
+    if (!selectedMonth || !selectedFile) {
+      setActionMessage({
+        type: 'error',
+        text: 'Please select both month and file'
+      });
+      return;
+    }
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('newsletter', selectedFile);
+    formData.append('month', selectedMonth);
+
+    try {
+      await axiosInstance.post('/api/newsletters/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      setActionMessage({
+        type: 'success',
+        text: `Newsletter for ${selectedMonth} uploaded successfully`
+      });
+      
+      // Reset form
+      setSelectedMonth("");
+      setSelectedFile(null);
+      document.getElementById('newsletter-file').value = '';
+      
+      // Refresh newsletters list
+      fetchNewsletters();
+    } catch (error) {
+      console.error('Error uploading newsletter:', error);
+      setActionMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to upload newsletter'
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDelete = async (month) => {
+    if (!window.confirm(`Are you sure you want to delete the newsletter for ${month}?`)) {
+      return;
+    }
+
+    try {
+      await axiosInstance.delete(`/api/newsletters/${month.toLowerCase()}`);
+      setActionMessage({
+        type: 'success',
+        text: `Newsletter for ${month} deleted successfully`
+      });
+      fetchNewsletters();
+    } catch (error) {
+      console.error('Error deleting newsletter:', error);
+      setActionMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to delete newsletter'
+      });
+    }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
+
+  return (
+    <div className="newsletter-management-container">
+      <div className="dashboard-sidebar">
+        <h3>Newsletter Sections</h3>
+        <div className="tabs">
+          <button
+            className={`tab ${activeNewsletterTab === "newsletters" ? "active" : ""}`}
+            onClick={() => setActiveNewsletterTab("newsletters")}
+            aria-pressed={activeNewsletterTab === "newsletters"}
+            aria-label="Manage newsletter PDFs"
+          >
+            <FaNewspaper /> Newsletter PDFs
+          </button>
+          <button
+            className={`tab ${activeNewsletterTab === "articles" ? "active" : ""}`}
+            onClick={() => setActiveNewsletterTab("articles")}
+            aria-pressed={activeNewsletterTab === "articles"}
+            aria-label="Manage featured articles"
+          >
+            <FaBullhorn /> Featured Articles
+          </button>
+        </div>
+      </div>
+      
+      <div className="dashboard-content">
+        {activeNewsletterTab === "newsletters" ? (
+          <>
+            {/* Upload Section */}
+            <div className="upload-section">
+              <h3><FaUpload /> Upload Newsletter</h3>
+            <form onSubmit={handleUpload} className="upload-form">
+              <div className="form-group">
+                <label htmlFor="month-select">Select Month:</label>
+                <select
+                  id="month-select"
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  required
+                >
+                  <option value="">Choose Month</option>
+                  {months.map(month => (
+                    <option key={month} value={month}>{month}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="newsletter-file">Select PDF File:</label>
+                <div className="file-input-wrapper">
+                  <input
+                    id="newsletter-file"
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileSelect}
+                    required
+                  />
+                </div>
+                {selectedFile && (
+                  <p className="file-info">
+                    Selected: {selectedFile.name} ({formatFileSize(selectedFile.size)})
+                  </p>
+                )}
+              </div>
+              
+              <button 
+                type="submit" 
+                className={`approve-button ${uploading ? 'loading' : ''}`}
+                disabled={uploading || !selectedMonth || !selectedFile}
+                aria-label={uploading ? 'Uploading newsletter...' : 'Upload newsletter'}
+              >
+                {uploading ? 'Uploading...' : 'Upload Newsletter'}
+              </button>
+            </form>
+          </div>
+
+          {/* Newsletters List */}
+          <div className="newsletters-list">
+            <h3><FaNewspaper /> Current Newsletters</h3>
+            {loading ? (
+              <div className="loading-state">
+                <div className="loading-spinner"></div>
+                <p>Loading newsletters...</p>
+              </div>
+            ) : newsletters.length === 0 ? (
+              <p className="no-newsletters">No newsletters uploaded yet.</p>
+            ) : (
+              <div className="newsletters-grid">
+                {newsletters.map(newsletter => (
+                  <div key={newsletter.month} className="newsletter-card">
+                    <div className="newsletter-info">
+                      <h4>{newsletter.month}</h4>
+                      <p>Size: {formatFileSize(newsletter.size)}</p>
+                      <p>Uploaded: {new Date(newsletter.uploadedAt).toLocaleDateString()}</p>
+                    </div>
+                    <div className="newsletter-actions">
+                      <a
+                        href={`/api/newsletters/download/${newsletter.month.toLowerCase()}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="download-button"
+                        aria-label={`Download ${newsletter.month} newsletter`}
+                      >
+                        <FaDownload /> Download
+                      </a>
+                      <button
+                        onClick={() => handleDelete(newsletter.month)}
+                        className="delete-button"
+                        aria-label={`Delete ${newsletter.month} newsletter`}
+                      >
+                        <FaTrash /> Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <ArticleManagement 
+          actionMessage={actionMessage}
+          setActionMessage={setActionMessage}
+        />
+      )}
+      </div>
+    </div>
+  );
 };
 
 const AdminDashboard = () => {
@@ -67,7 +640,7 @@ const AdminDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [actionMessage, setActionMessage] = useState(null); // Can be string or {type, text}
+  const [actionMessage, setActionMessage] = useState(null);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [showEventForm, setShowEventForm] = useState(false);
   const [rejectionComment, setRejectionComment] = useState("");
@@ -83,11 +656,17 @@ const AdminDashboard = () => {
   const [jobRejectionComment, setJobRejectionComment] = useState("");
   const [selectedJobId, setSelectedJobId] = useState(null);
   const [showImageUploadForm, setShowImageUploadForm] = useState(false);
-  const [showVideoForm, setShowVideoForm] = useState(false); // New state for video form
+  const [showVideoForm, setShowVideoForm] = useState(false);
   const [imageUploadData, setImageUploadData] = useState({
     file: null,
     caption: "",
     category: "",
+    year: "",
+  });
+  const [alumniVisitUploadData, setAlumniVisitUploadData] = useState({
+    file: null,
+    caption: "",
+    year: "",
   });
   const [newStayConnectedItem, setNewStayConnectedItem] = useState({
     title: "",
@@ -501,10 +1080,39 @@ const AdminDashboard = () => {
       clearActionMessage();
       return;
     }
+
+    // Validate year for Alumni Visits
+    if (imageUploadData.category === "Alumni Visits") {
+      if (!imageUploadData.year || isNaN(imageUploadData.year)) {
+        setActionMessage({
+          type: "error",
+          text: "Year is required for Alumni Visits images.",
+        });
+        clearActionMessage();
+        return;
+      }
+      const yearNum = parseInt(imageUploadData.year);
+      const currentYear = new Date().getFullYear();
+      if (yearNum < 1950 || yearNum > currentYear) {
+        setActionMessage({
+          type: "error",
+          text: `Year must be between 1950 and ${currentYear}.`,
+        });
+        clearActionMessage();
+        return;
+      }
+    }
+
     const formData = new FormData();
     formData.append("image", imageUploadData.file);
     formData.append("caption", imageUploadData.caption);
     formData.append("category", imageUploadData.category);
+    
+    // Add year only for Alumni Visits
+    if (imageUploadData.category === "Alumni Visits") {
+      formData.append("year", imageUploadData.year);
+    }
+
     try {
       await axiosInstance.post("/api/settings/gallery", formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -514,7 +1122,7 @@ const AdminDashboard = () => {
         type: "success",
         text: "Image uploaded successfully",
       });
-      setImageUploadData({ file: null, caption: "", category: "" });
+      setImageUploadData({ file: null, caption: "", category: "", year: "" });
       setShowImageUploadForm(false);
       const fileInput = document.getElementById("gallery-file-input-form"); // Updated ID
       if (fileInput) fileInput.value = "";
@@ -526,12 +1134,66 @@ const AdminDashboard = () => {
     }
   };
 
-  // const handleFileSelect = (e) => { // This function is no longer used by the gallery form.
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     setImageUploadData(prev => ({ ...prev, file }));
-  //   }
-  // };
+  const handleAlumniVisitUpload = async (e) => {
+    e.preventDefault();
+    if (
+      !alumniVisitUploadData.file ||
+      !alumniVisitUploadData.caption ||
+      !alumniVisitUploadData.year
+    ) {
+      setActionMessage({
+        type: "error",
+        text: "Please select a file, enter a caption, and provide a year.",
+      });
+      clearActionMessage();
+      return;
+    }
+
+    // Validate year
+    const yearNum = parseInt(alumniVisitUploadData.year);
+    const currentYear = new Date().getFullYear();
+    if (isNaN(yearNum) || yearNum < 1950 || yearNum > currentYear) {
+      setActionMessage({
+        type: "error",
+        text: `Year must be between 1950 and ${currentYear}.`,
+      });
+      clearActionMessage();
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("image", alumniVisitUploadData.file);
+    formData.append("caption", alumniVisitUploadData.caption);
+    formData.append("category", "Alumni Visits");
+    formData.append("year", alumniVisitUploadData.year);
+
+    try {
+      await axiosInstance.post("/api/settings/gallery", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      fetchSiteSettings();
+      setActionMessage({
+        type: "success",
+        text: "Alumni visit image uploaded successfully",
+      });
+      setAlumniVisitUploadData({ file: null, caption: "", year: "" });
+      setShowImageUploadForm(false);
+      const fileInput = document.getElementById("alumni-visit-file-input");
+      if (fileInput) fileInput.value = "";
+      clearActionMessage();
+    } catch (error) {
+      setActionMessage({ type: "error", text: "Failed to upload alumni visit image" });
+      console.error("Error uploading alumni visit image:", error);
+      clearActionMessage();
+    }
+  };
+
+  const handleFileSelect = (e) => { // This function is no longer used by the gallery form.
+    const file = e.target.files[0];
+    if (file) {
+      setImageUploadData(prev => ({ ...prev, file }));
+    }
+  };
 
   const handleVideoAdd = async (e) => {
     e.preventDefault();
@@ -704,6 +1366,7 @@ const AdminDashboard = () => {
       fetchSiteSettings();
       if (editingStayConnectedItem?._id === itemId)
         setEditingStayConnectedItem(null);
+        setEditingStayConnectedItem(null);
       setActionMessage({
         type: "success",
         text: "Stay Connected item deleted successfully",
@@ -755,9 +1418,12 @@ const AdminDashboard = () => {
     setError(null);
     // Reset specific states if needed
     setShowImageUploadForm(false);
-    setImageUploadData({ file: null, caption: "", category: "" });
+    setImageUploadData({ file: null, caption: "", category: "", year: "" });
+    setAlumniVisitUploadData({ file: null, caption: "", year: "" });
     const galleryFileInput = document.getElementById("gallery-file-input-form");
     if (galleryFileInput) galleryFileInput.value = "";
+    const alumniVisitFileInput = document.getElementById("alumni-visit-file-input");
+    if (alumniVisitFileInput) alumniVisitFileInput.value = "";
 
     setNewVideo({ videoUrl: "", title: "", description: "" });
     setShowVideoForm(false); // Reset video form visibility
@@ -804,7 +1470,7 @@ const AdminDashboard = () => {
             <div className="user-card-header">
               {user.profilePicture ? (
                 <img
-                  src={`http://localhost:3001${user.profilePicture}`}
+                  src={`${API_URL}${user.profilePicture}`}
                   alt={user.name}
                   className="user-card-avatar"
                 />
@@ -1039,6 +1705,12 @@ const AdminDashboard = () => {
           >
             <FaEdit /> Manage Website Content
           </button>
+          <button
+            className={`section-tab ${activeSection === "newsletter" ? "active" : ""}`}
+            onClick={() => setActiveSection("newsletter")}
+          >
+            <FaNewspaper /> Newsletter
+          </button>
         </div>
 
         {/* Centralized Action Message for non-content sections */}
@@ -1123,15 +1795,6 @@ const AdminDashboard = () => {
                       {syncMessage.text}
                     </div>
                   )}
-                </div>
-                <div className="user-search">
-                  <input
-                    type="text"
-                    value={userSearchQuery}
-                    onChange={(e) => setUserSearchQuery(e.target.value)}
-                    placeholder="Search users..."
-                    className="search-input"
-                  />
                 </div>
                 {renderUserList()}
               </div>
@@ -1256,7 +1919,7 @@ const AdminDashboard = () => {
                         <p>
                           {selectedUser.attendanceProof ? (
                             <a
-                              href={`http://localhost:3001${selectedUser.attendanceProof}`}
+                              href={`${API_URL}${selectedUser.attendanceProof}`}
                               target="_blank"
                               rel="noopener noreferrer"
                             >
@@ -1272,7 +1935,7 @@ const AdminDashboard = () => {
                         <div className="profile-picture-container">
                           {selectedUser.profilePicture ? (
                             <img
-                              src={`http://localhost:3001${selectedUser.profilePicture}`}
+                              src={`${API_URL}${selectedUser.profilePicture}`}
                               alt={selectedUser.name}
                               className="profile-picture"
                             />
@@ -1563,12 +2226,18 @@ const AdminDashboard = () => {
             <div className="content-management-container">
               <div className="content-management-sidebar">
                 <h3>Content Sections</h3>
-                <div className="tabs vertical-tabs">
+                <div className="tabs">
                   <button
                     className={`tab ${activeContentManagementTab === "gallery" ? "active" : ""}`}
                     onClick={() => handleContentManagementTabChange("gallery")}
                   >
-                    <FaImage /> Campus Gallery And Alumni Visit
+                    <FaImage /> Campus Gallery
+                  </button>
+                  <button
+                    className={`tab ${activeContentManagementTab === "alumniVisits" ? "active" : ""}`}
+                    onClick={() => handleContentManagementTabChange("alumniVisits")}
+                  >
+                    <FaUsers /> Alumni Visits
                   </button>
                   <button
                     className={`tab ${activeContentManagementTab === "videos" ? "active" : ""}`}
@@ -1608,31 +2277,34 @@ const AdminDashboard = () => {
                       <div className="section-card gallery-management-wrapper">
                         <div className="dashboard-sidebar inner-sidebar">
                           <h3>Gallery Actions</h3>
-                          <button
-                            className={`tab ${!showImageUploadForm ? "active" : ""}`}
-                            onClick={() => {
-                              setShowImageUploadForm(false);
-                            }}
-                          >
-                            <FaImage /> View Images
-                          </button>
-                          <button
-                            className={`tab ${showImageUploadForm ? "active" : ""}`}
-                            onClick={() => {
-                              setShowImageUploadForm(true);
-                              setImageUploadData({
-                                file: null,
-                                caption: "",
-                                category: "",
-                              });
-                              const fileInput = document.getElementById(
-                                "gallery-file-input-form",
-                              );
-                              if (fileInput) fileInput.value = "";
-                            }}
-                          >
-                            <FaPlus /> Upload New Image
-                          </button>
+                          <div className="tabs">
+                            <button
+                              className={`tab ${!showImageUploadForm ? "active" : ""}`}
+                              onClick={() => {
+                                setShowImageUploadForm(false);
+                              }}
+                            >
+                              <FaImage /> View Images
+                            </button>
+                            <button
+                              className={`tab ${showImageUploadForm ? "active" : ""}`}
+                              onClick={() => {
+                                setShowImageUploadForm(true);
+                                setImageUploadData({
+                                  file: null,
+                                  caption: "",
+                                  category: "",
+                                  year: "",
+                                });
+                                const fileInput = document.getElementById(
+                                  "gallery-file-input-form",
+                                );
+                                if (fileInput) fileInput.value = "";
+                              }}
+                            >
+                              <FaPlus /> Upload New Image
+                            </button>
+                          </div>
                         </div>
                         <div className="dashboard-content inner-content">
                           {showImageUploadForm ? (
@@ -1711,9 +2383,6 @@ const AdminDashboard = () => {
                                     Infrastructure
                                   </option>
                                   <option value="Events">Events</option>
-                                  <option value="Alumni Visits">
-                                    Alumni Visits
-                                  </option>
                                 </select>
                               </div>
                               <div className="form-buttons">
@@ -1736,6 +2405,7 @@ const AdminDashboard = () => {
                                       file: null,
                                       caption: "",
                                       category: "",
+                                      year: "",
                                     });
                                     const fileInput = document.getElementById(
                                       "gallery-file-input-form",
@@ -1750,20 +2420,22 @@ const AdminDashboard = () => {
                             </form>
                           ) : (
                             <>
-                              <h3>Campus Gallery & Alumni Visits</h3>
+                              <h3>Campus Gallery</h3>
                               <p className="section-description">
-                                Browse existing images. Use the sidebar to
+                                Browse existing campus images. Use the sidebar to
                                 upload new ones.
                               </p>
                               <p className="category-tip">
                                 Categories: Academic, Sports, Cultural,
-                                Infrastructure, Events, Alumni Visits
+                                Infrastructure, Events
                               </p>
                               <div className="image-boxes">
-                                {siteSettings.campusGallery.map((image) => (
+                                {siteSettings.campusGallery
+                                  .filter(image => image.category !== "Alumni Visits")
+                                  .map((image) => (
                                   <div key={image._id} className="box">
                                     <img
-                                      src={`http://localhost:3001${image.imageUrl}`}
+                                      src={`${API_URL}${image.imageUrl}`}
                                       alt={image.caption}
                                     />
                                     <p>
@@ -1780,8 +2452,197 @@ const AdminDashboard = () => {
                                     </button>
                                   </div>
                                 ))}
-                                {siteSettings.campusGallery.length === 0 && (
-                                  <p>No images in the gallery yet.</p>
+                                {siteSettings.campusGallery.filter(image => image.category !== "Alumni Visits").length === 0 && (
+                                  <p>No campus gallery images yet.</p>
+                                )}
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                    {activeContentManagementTab === "alumniVisits" && (
+                      <div className="section-card alumni-visits-management-wrapper">
+                        <div className="dashboard-sidebar inner-sidebar">
+                          <h3>Alumni Visits Actions</h3>
+                          <div className="tabs">
+                            <button
+                              className={`tab ${!showImageUploadForm ? "active" : ""}`}
+                              onClick={() => {
+                                setShowImageUploadForm(false);
+                              }}
+                            >
+                              <FaUsers /> View Alumni Visits
+                            </button>
+                            <button
+                              className={`tab ${showImageUploadForm ? "active" : ""}`}
+                              onClick={() => {
+                                setShowImageUploadForm(true);
+                                setAlumniVisitUploadData({
+                                  file: null,
+                                  caption: "",
+                                  year: "",
+                                });
+                                const fileInput = document.getElementById(
+                                  "alumni-visit-file-input",
+                                );
+                                if (fileInput) fileInput.value = "";
+                              }}
+                            >
+                              <FaPlus /> Upload Alumni Visit
+                            </button>
+                          </div>
+                        </div>
+                        <div className="dashboard-content inner-content">
+                          {showImageUploadForm ? (
+                            <form
+                              onSubmit={handleAlumniVisitUpload}
+                              className="image-upload-form"
+                            >
+                              <h3>Upload Alumni Visit Image</h3>
+                              <div className="form-group">
+                                <label htmlFor="alumni-visit-file-input">
+                                  Select Image File{" "}
+                                  <span className="required">*</span>
+                                </label>
+                                <input
+                                  id="alumni-visit-file-input"
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    setAlumniVisitUploadData((prev) => ({
+                                      ...prev,
+                                      file: file || null,
+                                    }));
+                                  }}
+                                  required
+                                />
+                                {alumniVisitUploadData.file && (
+                                  <p className="file-name">
+                                    Selected: {alumniVisitUploadData.file.name}
+                                  </p>
+                                )}
+                                {!alumniVisitUploadData.file && (
+                                  <p className="file-name-placeholder">
+                                    No file selected
+                                  </p>
+                                )}
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="alumni-visit-caption">
+                                  Caption <span className="required">*</span>
+                                </label>
+                                <input
+                                  id="alumni-visit-caption"
+                                  type="text"
+                                  value={alumniVisitUploadData.caption}
+                                  onChange={(e) =>
+                                    setAlumniVisitUploadData((prev) => ({
+                                      ...prev,
+                                      caption: e.target.value,
+                                    }))
+                                  }
+                                  placeholder="Describe the alumni visit"
+                                  required
+                                />
+                              </div>
+                              <div className="form-group">
+                                <label htmlFor="alumni-visit-year">
+                                  Year <span className="required">*</span>
+                                </label>
+                                <input
+                                  id="alumni-visit-year"
+                                  type="number"
+                                  min="1950"
+                                  max={new Date().getFullYear()}
+                                  value={alumniVisitUploadData.year}
+                                  onChange={(e) =>
+                                    setAlumniVisitUploadData((prev) => ({
+                                      ...prev,
+                                      year: e.target.value,
+                                    }))
+                                  }
+                                  placeholder="Enter year (e.g., 2024)"
+                                  required
+                                />
+                                <small className="form-help">
+                                  Enter the year when this alumni visit happened
+                                </small>
+                              </div>
+                              <div className="form-buttons">
+                                <button
+                                  type="submit"
+                                  className="submit-btn"
+                                  disabled={
+                                    !alumniVisitUploadData.file ||
+                                    !alumniVisitUploadData.caption ||
+                                    !alumniVisitUploadData.year
+                                  }
+                                >
+                                  Upload
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setShowImageUploadForm(false);
+                                    setAlumniVisitUploadData({
+                                      file: null,
+                                      caption: "",
+                                      year: "",
+                                    });
+                                    const fileInput = document.getElementById(
+                                      "alumni-visit-file-input",
+                                    );
+                                    if (fileInput) fileInput.value = "";
+                                  }}
+                                  className="cancel-btn"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </form>
+                          ) : (
+                            <>
+                              <h3>Alumni Visits Gallery</h3>
+                              <p className="section-description">
+                                Browse existing alumni visit images organized by year.
+                              </p>
+                              <div className="image-boxes">
+                                {siteSettings.campusGallery
+                                  .filter(image => image.category === "Alumni Visits")
+                                  .sort((a, b) => {
+                                    // Sort by year descending
+                                    if (a.year && b.year) {
+                                      return b.year - a.year;
+                                    }
+                                    return 0;
+                                  })
+                                  .map((image) => (
+                                  <div key={image._id} className="box">
+                                    <img
+                                      src={`${API_URL}${image.imageUrl}`}
+                                      alt={image.caption}
+                                    />
+                                    <p>
+                                      {image.caption}
+                                      {image.year && (
+                                        <span className="year-badge"> ({image.year})</span>
+                                      )}
+                                    </p>
+                                    <button
+                                      onClick={() =>
+                                        handleImageDelete(image._id)
+                                      }
+                                      className="delete-btn"
+                                      style={{ width: "10px" }}
+                                    >
+                                      <FaTrash />
+                                    </button>
+                                  </div>
+                                ))}
+                                {siteSettings.campusGallery.filter(image => image.category === "Alumni Visits").length === 0 && (
+                                  <p>No alumni visit images yet.</p>
                                 )}
                               </div>
                             </>
@@ -1794,25 +2655,27 @@ const AdminDashboard = () => {
                       <div className="section-card video-management-wrapper">
                         <div className="dashboard-sidebar inner-sidebar">
                           <h3>Video Actions</h3>
-                          <button
-                            className={`tab ${!showVideoForm ? "active" : ""}`}
-                            onClick={() => setShowVideoForm(false)}
-                          >
-                            <FaVideo /> View Videos
-                          </button>
-                          <button
-                            className={`tab ${showVideoForm ? "active" : ""}`}
-                            onClick={() => {
-                              setShowVideoForm(true);
-                              setNewVideo({
-                                videoUrl: "",
-                                title: "",
-                                description: "",
-                              });
-                            }}
-                          >
-                            <FaPlus /> Add New Video
-                          </button>
+                          <div className="tabs">
+                            <button
+                              className={`tab ${!showVideoForm ? "active" : ""}`}
+                              onClick={() => setShowVideoForm(false)}
+                            >
+                              <FaVideo /> View Videos
+                            </button>
+                            <button
+                              className={`tab ${showVideoForm ? "active" : ""}`}
+                              onClick={() => {
+                                setShowVideoForm(true);
+                                setNewVideo({
+                                  videoUrl: "",
+                                  title: "",
+                                  description: "",
+                                });
+                              }}
+                            >
+                              <FaPlus /> Add New Video
+                            </button>
+                          </div>
                         </div>
                         <div className="dashboard-content inner-content">
                           {showVideoForm ? (
@@ -1997,7 +2860,7 @@ const AdminDashboard = () => {
                       <div className="section-card stay-connected-wrapper">
                         <div className="dashboard-sidebar inner-sidebar">
                           <h3>Categories</h3>
-                          <div className="tabs vertical-tabs">
+                          <div className="tabs">
                             <button
                               className={`tab ${activeStayConnectedTab === "news" ? "active" : ""}`}
                               onClick={() =>
@@ -2300,6 +3163,15 @@ const AdminDashboard = () => {
               </div>
             </div>
           )}
+
+          {activeSection === "newsletter" && (
+            <div className="newsletter-management">
+              <NewsletterManagement 
+                actionMessage={actionMessage}
+                setActionMessage={setActionMessage}
+              />
+            </div>
+          )}
         </div>
       </section>
 
@@ -2315,7 +3187,7 @@ const AdminDashboard = () => {
               </p>
             </div>
             <div className="form-group">
-              <label htmlFor="jobRejectionComment">Rejection Reason:</label>
+              <label htmlFor="jobRejectionComment">Rejection Reason</label>
               <textarea
                 id="jobRejectionComment"
                 value={jobRejectionComment}

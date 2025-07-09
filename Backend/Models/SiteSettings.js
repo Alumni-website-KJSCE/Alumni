@@ -25,6 +25,19 @@ const galleryImageSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  year: {
+    type: Number,
+    required: function() {
+      return this.category === "Alumni Visits";
+    },
+    validate: {
+      validator: function(value) {
+        if (this.category !== "Alumni Visits") return true;
+        return value >= 1950 && value <= new Date().getFullYear();
+      },
+      message: "Year must be between 1950 and current year"
+    }
+  },
 });
 
 const stayConnectedItemSchema = new mongoose.Schema(

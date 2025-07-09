@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./Newletter.css";
+import axiosInstance from "../../utils/axiosConfig";
+
+const API_URL = import.meta.env.VITE_API_URL
 
 const Newsletter = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [subscribed, setSubscribed] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(null);
-  const [showPdf, setShowPdf] = useState(false);
-  const [pdfError, setPdfError] = useState(false);
+  const [availableNewsletters, setAvailableNewsletters] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [downloadingMonth, setDownloadingMonth] = useState(null);
+  const [articles, setArticles] = useState([]);
 
   const newsletters = [
     "January",
@@ -24,6 +27,34 @@ const Newsletter = () => {
     "December",
   ];
 
+  // Fetch available newsletters on component mount
+  useEffect(() => {
+    fetchAvailableNewsletters();
+    fetchArticles();
+  }, []);
+
+  const fetchAvailableNewsletters = async () => {
+    setLoading(true);
+    try {
+      const response = await axiosInstance.get('/api/newsletters');
+      const newsletterMonths = response.data.newsletters.map(nl => nl.month);
+      setAvailableNewsletters(newsletterMonths);
+    } catch (error) {
+      console.error('Error fetching newsletters:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchArticles = async () => {
+    try {
+      const response = await axiosInstance.get('/api/newsletters/articles');
+      setArticles(response.data.articles);
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+    }
+  };
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value.toLowerCase());
   };
@@ -33,37 +64,39 @@ const Newsletter = () => {
     setSubscribed(true);
   };
 
-  const viewPDF = (month) => {
-    setLoading(true);
-    setPdfError(false);
-    setSelectedMonth(month);
-    setShowPdf(true);
+  const downloadPDF = async (month) => {
+    if (!availableNewsletters.includes(month)) {
+      alert(`Newsletter for ${month} is not available yet.`);
+      return;
+    }
 
-    // Check if the PDF file exists
-    fetch(`/newsletters/${month.toLowerCase()}.pdf`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("PDF not found");
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error loading PDF:", error);
-        setPdfError(true);
-        setLoading(false);
+    setDownloadingMonth(month);
+    try {
+      const response = await axiosInstance.get(`/api/newsletters/download/${month.toLowerCase()}`, {
+        responseType: 'blob'
       });
-
-    // Scroll to the PDF viewer
-    setTimeout(() => {
-      document
-        .getElementById("pdf-viewer")
-        ?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  };
-
-  const closePDF = () => {
-    setShowPdf(false);
-    setSelectedMonth(null);
+      
+      // Create blob link to download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${month}_Newsletter.pdf`);
+      
+      // Append to html link element page
+      document.body.appendChild(link);
+      
+      // Start download
+      link.click();
+      
+      // Clean up and remove the link
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading newsletter:', error);
+      alert(`Failed to download ${month} newsletter. Please try again.`);
+    } finally {
+      setDownloadingMonth(null);
+    }
   };
 
   return (
@@ -72,7 +105,7 @@ const Newsletter = () => {
         <h2 className="section-title">Monthly Newsletters</h2>
         <p>
           Stay updated with our latest news and stories. Click on a month to
-          view the newsletter.
+          download the newsletter.
         </p>
 
         <div className="search-container">
@@ -91,10 +124,12 @@ const Newsletter = () => {
             .map((month) => (
               <button
                 key={month}
-                onClick={() => viewPDF(month)}
-                className={selectedMonth === month ? "active" : ""}
+                onClick={() => downloadPDF(month)}
+                className={`${availableNewsletters.includes(month) ? 'available' : 'unavailable'} ${downloadingMonth === month ? 'downloading' : ''}`}
+                disabled={downloadingMonth === month}
               >
-                {month}
+                {downloadingMonth === month ? 'Downloading...' : month}
+                {!availableNewsletters.includes(month) && ' (Coming Soon)'}
               </button>
             ))}
           {newsletters.filter((month) =>
@@ -105,46 +140,6 @@ const Newsletter = () => {
             </p>
           )}
         </div>
-
-        {showPdf && selectedMonth && (
-          <div id="pdf-viewer" className="pdf-viewer">
-            <div className="pdf-header">
-              <h3>{selectedMonth} Newsletter</h3>
-              <button className="close-btn" onClick={closePDF}>
-                ×
-              </button>
-            </div>
-
-            {loading && (
-              <div className="pdf-loading">
-                <div className="loading-spinner"></div>
-                <p>Loading newsletter...</p>
-              </div>
-            )}
-
-            {pdfError ? (
-              <div className="pdf-error">
-                <p>
-                  Sorry, the newsletter for {selectedMonth} is not available.
-                </p>
-                <p>Please check back later or contact the administrator.</p>
-              </div>
-            ) : (
-              <iframe
-                src={`/newsletters/${selectedMonth.toLowerCase()}.pdf`}
-                title={`${selectedMonth} Newsletter`}
-                width="100%"
-                height="600px"
-                style={{ display: loading ? "none" : "block" }}
-                onLoad={() => setLoading(false)}
-                onError={() => {
-                  setPdfError(true);
-                  setLoading(false);
-                }}
-              ></iframe>
-            )}
-          </div>
-        )}
       </section>
 
       <section className="section">
@@ -154,75 +149,34 @@ const Newsletter = () => {
           vibrant alumni community.
         </p>
         <div className="articles-container">
-          <div className="article">
-            <div className="article-image" >
-              <img src="datathon.png" alt="Datathon Event" />
+          {articles.map((article) => (
+            <div key={article._id} className="article">
+              <div className="article-image">
+                <img 
+                  src={article.imageUrl ? `${API_URL}${article.imageUrl}` : "/default-article.jpg"} 
+                  alt={article.title} 
+                />
+              </div>
+              <div className="article-content">
+                <h3>{article.title}</h3>
+                <p>{article.description}</p>
+                {article.linkUrl && (
+                  <a 
+                    href={article.linkUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="card-link"
+                  >
+                    {article.linkText || 'Read more'}
+                  </a>
+                )}
+              </div>
             </div>
-            <div className="article-content">
-              <h3>Datathon: A 24-Hour Data Science Extravaganza</h3>
-              <p>
-                Datathon was a 24-hour event that brought together India's
-                brightest young minds to innovate and collaborate in data
-                science, spanning domains like NLP, generative AI, and MLOps.
-                Participants showcased their expertise and learned from seasoned
-                professionals, paving the way for future innovations.
-              </p>
-              <a href="datathon.pdf" target="_blank" className="card-link">
-                Read more
-              </a>
-            </div>
-          </div>
-
-          <div className="article">
-            <div className="article-image">
-              <img src="rhapsody.png" alt="Rhapsody Drama Club" />
-            </div>
-            <div className="article-content">
-              <h3>Rhapsody: KJSCE's Premier Drama Club</h3>
-              <p>
-                Rhapsody, the versatile Drama Club of KJSCE, excels in street,
-                screen, and stage plays, winning accolades like the BITS
-                Hyderabad Street Play Competition. They connect deeply with
-                their audience through events like Naree and Teacher's Day.
-              </p>
-              <a href="December.pdf" target="_blank" className="card-link">
-                Read more
-              </a>
-            </div>
-          </div>
-
-          <div className="article">
-            <div className="article-image">
-              <img src="environment.png" alt="World Environment Day" />
-            </div>
-            <div className="article-content">
-              <h3>Exploring Nature's Treasures: World Environment Day</h3>
-              <p>
-                Students at Somaiya Vidyavihar Campus in Mumbai celebrated World
-                Environment Day with a Tree Treasure Hunt, fostering a deepened
-                connection with nature and emphasizing the importance of
-                biodiversity and conservation.
-              </p>
-              <a href="environment.pdf" target="_blank" className="card-link">
-                Read more
-              </a>
-            </div>
-          </div>
+          ))}
+          {articles.length === 0 && (
+            <p className="no-articles">No articles available at the moment.</p>
+          )}
         </div>
-      </section>
-
-      <section className="section subscribe-section">
-        <h2 className="section-title" style={{ color: "var(--primary-red)" }}>
-          Subscribe to Our Newsletter
-        </h2>
-        <form id="subscribe-form" onSubmit={handleSubscribe}>
-          <input type="text" name="name" placeholder="Your Name" required />
-          <input type="email" name="email" placeholder="Your Email" required />
-          <button type="submit">Subscribe</button>
-        </form>
-        {subscribed && (
-          <p className="success-message">Thank you for subscribing!</p>
-        )}
       </section>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/logo.svg";
+import logo from "../../assets/images/KJSCE.svg";
 import "./Navbar.css";
 import { User, Shield, Edit, LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
@@ -69,7 +69,7 @@ export default function Navbar() {
     <div>
       <nav className={`main-nav ${scrolled ? "scrolled" : ""}`}>
         <div className="logo">
-          <img src={logo} alt="KJSCE Logo" />
+          <Link to="/"><img src={logo} alt="KJSCE Logo"/></Link>
         </div>
 
         {/* Hamburger Menu Button */}
@@ -154,6 +154,15 @@ export default function Navbar() {
                 role="menuitem"
               >
                 Events
+              </Link>
+            </li>
+            <li role="none">
+              <Link
+                to="/contact-us"
+                onClick={handleMobileMenuItemClick}
+                role="menuitem"
+              >
+                Contact Us
               </Link>
             </li>
           </ul>

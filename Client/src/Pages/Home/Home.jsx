@@ -5,6 +5,8 @@ import Campus from "../../assets/images/campus.jpg";
 import "./Home.css";
 import "./stay-connected-styles.css";
 
+const API_URL = import.meta.env.VITE_API_URL
+
 const GallerySection = ({ title, images }) => (
   <div className="gallery-section">
     <h3>{title}</h3>
@@ -13,7 +15,7 @@ const GallerySection = ({ title, images }) => (
         images.map((image, index) => (
           <div className="box" key={index}>
             <img
-              src={`http://localhost:3001${image.imageUrl}`}
+              src={`${API_URL}${image.imageUrl}`}
               alt={image.caption || "Campus image"}
               onError={(e) => {
                 e.target.style.display = "none";

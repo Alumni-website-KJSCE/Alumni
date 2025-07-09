@@ -22,6 +22,8 @@ import {
   QUALIFICATION_OPTIONS,
 } from "../../utils/constants";
 
+const API_URL = import.meta.env.VITE_API_URL
+
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -401,7 +403,7 @@ const Profile = () => {
               <div className="profile-avatar">
                 {user?.profilePicture ? (
                   <img
-                    src={`http://localhost:3001${user.profilePicture}`}
+                    src={`${API_URL}${user.profilePicture}`}
                     alt={user?.name}
                     className="avatar-image"
                   />
@@ -934,7 +936,7 @@ const Profile = () => {
                 onImageSelect={handleImageSelect}
                 initialImage={
                   user?.profilePicture
-                    ? `http://localhost:3001${user.profilePicture}`
+                    ? `${API_URL}${user.profilePicture}`
                     : null
                 }
               />

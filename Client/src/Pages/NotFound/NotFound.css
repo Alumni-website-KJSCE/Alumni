@@ -2,37 +2,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 70vh;
+  min-height: 80vh;
   padding: 2rem;
-  text-align: center;
+  background: var(--background-primary);
 }
 
 .not-found-content {
   max-width: 500px;
   width: 100%;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  background: var(--background-secondary);
+  box-shadow: 0 4px 20px var(--shadow-medium);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.not-found-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px var(--shadow-medium);
+}
+
+.not-found-icon {
+  margin-bottom: 1.5rem;
+}
+
+.error-code {
+  font-size: 5rem;
+  font-weight: 900;
+  background: var(--primary-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--primary-red);
+  display: block;
+  line-height: 1;
+  margin-bottom: 0.5rem;
 }
 
 .not-found-title {
-  font-size: 8rem;
-  font-weight: 900;
-  color: var(--primary-color, #2563eb);
-  margin: 0;
-  line-height: 1;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.not-found-subtitle {
   font-size: 2rem;
-  font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  font-weight: 700;
+  color: var(--text-dark);
   margin: 1rem 0;
+  letter-spacing: -0.5px;
 }
 
 .not-found-message {
   font-size: 1.1rem;
-  color: var(--text-secondary, #6b7280);
-  margin: 1.5rem 0 2rem 0;
+  color: var(--text-secondary);
+  margin: 1.5rem 0 2.5rem 0;
   line-height: 1.6;
+  opacity: 0.9;
 }
 
 .not-found-actions {
@@ -42,69 +64,114 @@
   flex-wrap: wrap;
 }
 
-.btn-primary, .btn-secondary {
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+.modern-button {
+  padding: 0.8rem 1.8rem;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.2s ease;
-  display: inline-block;
-  min-width: 120px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 140px;
+  justify-content: center;
+  border: 2px solid transparent;
+  letter-spacing: 0.3px;
 }
 
-.btn-primary {
-  background-color: var(--primary-color, #2563eb);
-  color: white;
-  border: 2px solid var(--primary-color, #2563eb);
+.primary-btn {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  box-shadow: 0 3px 12px rgba(216, 64, 64, 0.3);
 }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover, #1d4ed8);
-  transform: translateY(-1px);
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(216, 64, 64, 0.4);
+  filter: brightness(1.05);
 }
 
-.btn-secondary {
-  background-color: transparent;
-  color: var(--primary-color, #2563eb);
-  border: 2px solid var(--primary-color, #2563eb);
+.secondary-btn {
+  background: transparent;
+  color: var(--primary-red);
+  border: 2px solid var(--primary-red);
+  box-shadow: 0 2px 8px rgba(216, 64, 64, 0.1);
 }
 
-.btn-secondary:hover {
-  background-color: var(--primary-color, #2563eb);
-  color: white;
-  transform: translateY(-1px);
+.secondary-btn:hover {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(216, 64, 64, 0.3);
 }
 
 /* Dark theme support */
-[data-theme="dark"] .not-found-subtitle {
-  color: var(--text-primary-dark, #f9fafb);
+:root.dark-theme .not-found-title {
+  color: var(--text-dark);
 }
 
-[data-theme="dark"] .not-found-message {
-  color: var(--text-secondary-dark, #d1d5db);
+:root.dark-theme .not-found-message {
+  color: var(--text-secondary);
+}
+
+:root.dark-theme .not-found-content {
+  background: var(--background-secondary);
+  border-color: var(--border-color);
+}
+
+:root.dark-theme .error-code {
+  color: var(--primary-red);
 }
 
 /* Mobile responsiveness */
 @media (max-width: 768px) {
-  .not-found-title {
-    font-size: 6rem;
+  .not-found-container {
+    padding: 1rem;
+    min-height: 70vh;
   }
 
-  .not-found-subtitle {
-    font-size: 1.5rem;
+  .not-found-content {
+    padding: 2rem 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .error-code {
+    font-size: 4rem;
+  }
+
+  .not-found-title {
+    font-size: 1.6rem;
   }
 
   .not-found-message {
     font-size: 1rem;
+    margin: 1rem 0 2rem 0;
   }
 
   .not-found-actions {
     flex-direction: column;
     align-items: center;
+    gap: 0.8rem;
   }
 
-  .btn-primary, .btn-secondary {
+  .modern-button {
     width: 100%;
-    max-width: 200px;
+    max-width: 280px;
+    padding: 0.9rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-found-content {
+    padding: 1.5rem 1rem;
+  }
+
+  .error-code {
+    font-size: 3.5rem;
+  }
+
+  .not-found-title {
+    font-size: 1.4rem;
   }
 }

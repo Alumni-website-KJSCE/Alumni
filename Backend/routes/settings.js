@@ -52,7 +52,7 @@ router.post(
   upload.single("image"),
   async (req, res) => {
     try {
-      const { caption, order, category } = req.body;
+      const { caption, order, category, year } = req.body;
 
       // Validate file upload
       if (!req.file) {
@@ -74,6 +74,20 @@ router.post(
         return res.status(400).json({ message: "Invalid category" });
       }
 
+      // Validate year for Alumni Visits
+      if (category === "Alumni Visits") {
+        if (!year || isNaN(year)) {
+          return res.status(400).json({ message: "Year is required for Alumni Visits" });
+        }
+        const yearNum = parseInt(year);
+        const currentYear = new Date().getFullYear();
+        if (yearNum < 1950 || yearNum > currentYear) {
+          return res.status(400).json({ 
+            message: `Year must be between 1950 and ${currentYear}` 
+          });
+        }
+      }
+
       const imageUrl = `/uploads/galleryImages/${req.file.filename}`;
 
       let settings = await SiteSettings.findOne();
@@ -81,12 +95,19 @@ router.post(
         settings = new SiteSettings();
       }
 
-      settings.campusGallery.push({
+      const newImage = {
         imageUrl,
         caption,
         category,
         order: parseInt(order) || settings.campusGallery.length,
-      });
+      };
+
+      // Add year only for Alumni Visits
+      if (category === "Alumni Visits") {
+        newImage.year = parseInt(year);
+      }
+
+      settings.campusGallery.push(newImage);
 
       // Sort by order
       settings.campusGallery.sort((a, b) => a.order - b.order);

@@ -1,0 +1,444 @@
+.credits-page {
+  min-height: 100vh;
+  padding: 2rem 0;
+  background: var(--background-primary, #f7f9fc);
+  color: var(--text-dark, #333333);
+}
+
+.credits-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.credits-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding-top: 2rem;
+}
+
+.credits-header h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-dark, #333333);
+}
+
+.credits-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary, #666666);
+  margin-bottom: 0;
+}
+
+.credits-content {
+  background: var(--background-secondary, #ffffff);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.project-info {
+  margin-bottom: 3rem;
+}
+
+.project-card {
+  background: var(--background-secondary, #ffffff);
+  border-radius: 8px;
+  padding: 2rem;
+  border: 1px solid var(--border-color, #e0e0e0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.project-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.project-icon {
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.project-header h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-dark, #333333);
+}
+
+.project-description {
+  color: var(--text-secondary, #666666);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.project-stats {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+  padding: 1rem;
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  border-radius: 8px;
+  color: white;
+  min-width: 120px;
+}
+
+.stat h3 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.stat p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--text-dark, #333333);
+  text-align: center;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  border-radius: 2px;
+}
+
+.team-section {
+  margin-bottom: 3rem;
+}
+
+.developers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.developer-card {
+  background: var(--background-secondary, #ffffff);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color, #e0e0e0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.developer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.developer-image {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1.5rem;
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--primary-red, #D84040);
+}
+
+.developer-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--background-secondary, #ffffff);
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.developer-info h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-dark, #333333);
+}
+
+.developer-role {
+  color: var(--primary-red, #D84040);
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.developer-description {
+  color: var(--text-secondary, #666666);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+.developer-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.skill-tag {
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.developer-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.developer-links a {
+  background: var(--background-secondary, #ffffff);
+  color: var(--text-dark, #333333);
+  padding: 0.75rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border: 1px solid var(--border-color, #e0e0e0);
+  transition: all 0.3s ease;
+}
+
+.developer-links a:hover {
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  color: white;
+  transform: translateY(-2px);
+}
+
+.technologies-section {
+  margin-bottom: 3rem;
+}
+
+.technologies-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.technology-tag {
+  background: var(--background-secondary, #ffffff);
+  color: var(--text-dark, #333333);
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  border: 1px solid var(--border-color, #e0e0e0);
+  transition: all 0.3s ease;
+}
+
+.technology-tag:hover {
+  background: var(--primary-gradient, linear-gradient(135deg, #D84040, #A31D1D));
+  color: white;
+  transform: translateY(-2px);
+}
+
+.acknowledgments-section {
+  margin-bottom: 3rem;
+}
+
+.acknowledgments-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.acknowledgment-card {
+  background: var(--background-secondary, #ffffff);
+  border-radius: 8px;
+  padding: 2rem;
+  border: 1px solid var(--border-color, #e0e0e0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.acknowledgment-card:hover {
+  transform: translateY(-2px);
+}
+
+.acknowledgment-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: var(--text-dark, #333333);
+}
+
+.acknowledgment-card p {
+  color: var(--text-secondary, #666666);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-credits {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+.made-with-love {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.heart-icon {
+  color: #e74c3c;
+  animation: heartbeat 2s infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.made-with-love p {
+  color: var(--text-dark, #333333);
+  font-weight: 500;
+  margin: 0;
+}
+
+.copyright {
+  color: var(--text-secondary, #666666);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Dark theme adjustments */
+body.dark-theme .credits-page {
+  background: var(--background-primary);
+  color: var(--text-color);
+}
+
+body.dark-theme .credits-content {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+body.dark-theme .project-card,
+body.dark-theme .developer-card,
+body.dark-theme .acknowledgment-card {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+body.dark-theme .developer-card:hover,
+body.dark-theme .acknowledgment-card:hover {
+  background: var(--card-background);
+}
+
+body.dark-theme .technology-tag {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+body.dark-theme .developer-links a {
+  background: var(--card-background);
+  border: 1px solid var(--border-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .credits-page .container {
+    padding: 0 0.5rem;
+  }
+  
+  .credits-header h1 {
+    font-size: 2.5rem;
+  }
+  
+  .credits-content {
+    padding: 1.5rem;
+  }
+  
+  .project-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .project-stats {
+    gap: 1rem;
+  }
+  
+  .stat {
+    min-width: 100px;
+  }
+  
+  .developers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .acknowledgments-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .credits-header h1 {
+    font-size: 2rem;
+  }
+  
+  .credits-content {
+    padding: 1rem;
+  }
+  
+  .project-card,
+  .developer-card,
+  .acknowledgment-card {
+    padding: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .project-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .stat {
+    padding: 0.75rem;
+  }
+  
+  .stat h3 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 import {
   Facebook,
@@ -43,16 +44,22 @@ export default function Footer() {
           <h3>Quick Links</h3>
           <ul className="footer-links">
             <li>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="/events">Events</a>
+              <Link to="/events">Events</Link>
             </li>
             <li>
-              <a href="/careers">Careers</a>
+              <Link to="/careers">Careers</Link>
             </li>
             <li>
-              <a href="/alumni-visits">Alumni Visits</a>
+              <Link to="/alumni-visits">Alumni Visits</Link>
+            </li>
+            <li>
+              <Link to="/contact-us">Contact Us</Link>
+            </li>
+            <li>
+              <Link to="/credits">Credits</Link>
             </li>
           </ul>
         </div>
@@ -62,11 +69,11 @@ export default function Footer() {
           <ul className="contact-info">
             <li>
               <Mail size={16} />
-              <a href="mailto:alumni@kjsce.edu.in">alumni@kjsce.edu.in</a>
+              <a href="mailto:alumni.engg@somaiya.edu ">alumni@kjsce.edu.in</a>
             </li>
             <li>
               <Phone size={16} />
-              <a href="tel:+911234567890">+91 12345 67890</a>
+              <a href="tel:+91 98193 79529">+91 98193 79529</a>
             </li>
             <li>
               <MapPin size={35} />
@@ -81,12 +88,12 @@ export default function Footer() {
           <h3>Stay Connected</h3>
           <p>Keep up with the latest alumni news and opportunities</p>
           <div className="stay-connected-links">
-            <a href="/newsletter" className="newsletter-btn">
+            <Link to="/newsletter" className="newsletter-btn">
               Newsletter
-            </a>
-            <a href="/alumni" className="footer-highlight-link">
+            </Link>
+            <Link to="/alumni" className="footer-highlight-link">
               Alumni Directory
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -94,14 +101,14 @@ export default function Footer() {
       <div className="footer-bottom">
         <div className="footer-bottom-content">
           <p>
-            &copy; {currentYear} KJSCE Alumni Association. All rights reserved.
+            &copy; {currentYear} KJSSE SwDC. All rights reserved.
           </p>
           <ul className="footer-links horizontal">
             <li>
-              <a href="/privacy">Privacy Policy</a>
+              <Link to="/privacy">Privacy Policy</Link>
             </li>
             <li>
-              <a href="/terms">Terms of Service</a>
+              <Link to="/terms">Terms of Service</Link>
             </li>
           </ul>
         </div>
